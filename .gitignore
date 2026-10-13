@@ -1,0 +1,7 @@
+node_modules/
+cypress/videos/
+cypress/screenshots/
+cypress/reports/
+.nyc_output/
+*.log
+.DS_Store
