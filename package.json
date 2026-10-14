@@ -8,6 +8,7 @@
     "test:open": "cypress open",
     "test:api": "cypress run --spec \"cypress/e2e/features/etapa-1-api/**/*.feature\"",
     "test:frontend": "cypress run --spec \"cypress/e2e/features/etapa-2-frontend/**/*.feature\"",
+    "test:negative": "cypress run --spec \"cypress/e2e/features/**/*negative*.feature\"",
     "report": "node generate-report.mjs",
     "test:api:report": "npm run test:api && npm run report",
     "test:frontend:report": "npm run test:frontend && npm run report",

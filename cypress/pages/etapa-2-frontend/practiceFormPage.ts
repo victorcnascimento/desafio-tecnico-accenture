@@ -1,3 +1,5 @@
+import { BasePage } from "../BasePage";
+
 export interface StudentFormData {
   firstName: string;
   lastName: string;
@@ -15,7 +17,7 @@ export interface StudentFormData {
   city: string;
 }
 
-export class PracticeFormPage {
+export class PracticeFormPage extends BasePage {
   // Seletores
   private homeCardForms = ".category-cards .card";
   private menuItemPracticeForm = ".menu-list #item-0";
@@ -38,8 +40,7 @@ export class PracticeFormPage {
 
   // Ações
   visitHome() {
-    cy.visit("/");
-    this.removeAdsAndFooter();
+    this.visitHomePage();
   }
 
   navigateToPracticeForm() {
@@ -127,16 +128,5 @@ export class PracticeFormPage {
     this.removeAdsAndFooter();
     cy.get(this.buttonCloseModal).scrollIntoView().click({ force: true });
     cy.get(this.modalTitle).should("not.exist");
-  }
-
-  private removeAdsAndFooter() {
-    cy.get("body").then(($body) => {
-      if ($body.find("#fixedban").length > 0) {
-        cy.get("#fixedban").invoke("remove");
-      }
-      if ($body.find("footer").length > 0) {
-        cy.get("footer").invoke("remove");
-      }
-    });
   }
 }

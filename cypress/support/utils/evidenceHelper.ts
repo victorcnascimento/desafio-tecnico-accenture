@@ -12,11 +12,11 @@ export interface EvidenceRecord {
 export class EvidenceHelper {
   private static records: EvidenceRecord[] = [];
 
-  static recordApiCall(step: string, endpoint: string, response: Cypress.Response<any>, requestPayload?: any, attachFn?: (data: string, mediaType: string) => void) {
+  static recordApiCall(step: string, endpoint: string, method: string, response: Cypress.Response<any>, requestPayload?: any, attachFn?: (data: string, mediaType: string) => void) {
     const record: EvidenceRecord = {
       step,
       endpoint: endpoint || response.url || "",
-      method: (response as any).method || "HTTP",
+      method,
       status: response.status,
       requestPayload: requestPayload ?? null,
       responseBody: response.body,

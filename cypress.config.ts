@@ -13,6 +13,11 @@ export default defineConfig({
     screenshotOnRunFailure: true,
     trashAssetsBeforeRuns: false,
     chromeWebSecurity: false,
+    defaultCommandTimeout: 10000,
+    retries: {
+      runMode: 2,
+      openMode: 0,
+    },
     async setupNodeEvents(on, config) {
       await addCucumberPreprocessorPlugin(on, config);
       on(

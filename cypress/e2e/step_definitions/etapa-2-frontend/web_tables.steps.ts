@@ -97,10 +97,10 @@ When("o usuário realiza a exclusão de todos os 12 registros adicionados", func
   webTablesPage.clearSearch();
 
   const deleteExcessRecords = () => {
-    cy.get("body").then(($b) => {
-      const deleteButtons = $b.find("[id^='delete-record-'], [title='Delete']");
-      if (deleteButtons.length > 3) {
-        cy.wrap(deleteButtons.eq(3)).click({ force: true });
+    cy.get("[id^='delete-record-'], [title='Delete']").then(($buttons) => {
+      if ($buttons.length > 3) {
+        cy.wrap($buttons.eq(3)).click({ force: true });
+        cy.wait(200);
         deleteExcessRecords();
       }
     });

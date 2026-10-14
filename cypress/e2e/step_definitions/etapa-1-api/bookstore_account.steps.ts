@@ -1,4 +1,4 @@
-import { Given, When, Then, After } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then, Before, After } from "@badeball/cypress-cucumber-preprocessor";
 import { faker } from "@faker-js/faker";
 import { AccountService } from "../../../services/etapa-1-api/accountService";
 import { BookStoreService } from "../../../services/etapa-1-api/bookStoreService";
@@ -76,11 +76,23 @@ function ensureBooksRented(): Cypress.Chainable<void> {
   });
 }
 
+Before(function () {
+  EvidenceHelper.clearRecords();
+});
+
 After(function () {
+  // Salvar evidências
   EvidenceHelper.saveEvidenceReport("cypress/reports/evidence/api_execution_evidence.json");
   EvidenceHelper.saveMarkdownReport("cypress/reports/evidence/api_execution_evidence.md");
   EvidenceHelper.saveEvidenceReport("docs/evidencias/etapa-1-api/api_execution_evidence.json");
   EvidenceHelper.saveMarkdownReport("docs/evidencias/etapa-1-api/api_execution_evidence.md");
+
+  // Cleanup: deletar o usuário criado para não poluir a base
+  if (state.userId && state.token) {
+    accountService.deleteUser(state.userId, state.token).then((res) => {
+      cy.log(`[CLEANUP] Usuário ${state.username} deletado com status: ${res.status}`);
+    });
+  }
 });
 
 // ==========================================
@@ -98,7 +110,7 @@ Given("que envio uma requisição para criar um novo usuário com credenciais v�
 
   accountService.createUser(payload).then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall("1. Criar Usuário (POST /Account/v1/User)", "https://demoqa.com/Account/v1/User", response, payload, this.attach);
+    EvidenceHelper.recordApiCall("1. Criar Usuário (POST /Account/v1/User)", "https://demoqa.com/Account/v1/User", "POST", response, payload, this.attach);
 
     if (response.status === 201) {
       state.userId = response.body.userID;
@@ -132,7 +144,7 @@ When("solicito a geração de um token de acesso para o usuário criado", functi
 
   accountService.generateToken(payload).then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall("2. Gerar Token (POST /Account/v1/GenerateToken)", "https://demoqa.com/Account/v1/GenerateToken", response, payload, this.attach);
+    EvidenceHelper.recordApiCall("2. Gerar Token (POST /Account/v1/GenerateToken)", "https://demoqa.com/Account/v1/GenerateToken", "POST", response, payload, this.attach);
 
     if (response.status === 200 && response.body.token) {
       state.token = response.body.token;
@@ -167,7 +179,7 @@ When("envio a requisição para verificar a autorização do usuário", function
 
   accountService.checkAuthorized(payload).then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall("3. Verificar Autorização (POST /Account/v1/Authorized)", "https://demoqa.com/Account/v1/Authorized", response, payload, this.attach);
+    EvidenceHelper.recordApiCall("3. Verificar Autorização (POST /Account/v1/Authorized)", "https://demoqa.com/Account/v1/Authorized", "POST", response, payload, this.attach);
   });
 });
 
@@ -185,7 +197,7 @@ Given("que a BookStore possui um acervo de livros", function () {
 When("realizo a consulta dos livros disponíveis no catálogo", function () {
   bookStoreService.getBooks().then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall("4. Listar Livros Disponíveis (GET /BookStore/v1/Books)", "https://demoqa.com/BookStore/v1/Books", response, null, this.attach);
+    EvidenceHelper.recordApiCall("4. Listar Livros Disponíveis (GET /BookStore/v1/Books)", "https://demoqa.com/BookStore/v1/Books", "GET", response, null, this.attach);
 
     if (response.status === 200) {
       state.catalogBooks = response.body.books;
@@ -223,7 +235,7 @@ When("envio a requisição para alugar os dois livros selecionados", function ()
 
   bookStoreService.rentBooks(state.userId, state.selectedIsbns, state.token).then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall("5. Alugar Dois Livros (POST /BookStore/v1/Books)", "https://demoqa.com/BookStore/v1/Books", response, payload, this.attach);
+    EvidenceHelper.recordApiCall("5. Alugar Dois Livros (POST /BookStore/v1/Books)", "https://demoqa.com/BookStore/v1/Books", "POST", response, payload, this.attach);
   });
 });
 
@@ -247,7 +259,7 @@ When("consulto os detalhes da conta do usuário através do seu id", function ()
   accountService.getUserDetails(state.userId, state.token).then((response) => {
     state.lastResponse = response;
     state.userDetails = response.body;
-    EvidenceHelper.recordApiCall(`6. Consultar Detalhes do Usuário (GET /Account/v1/User/${state.userId})`, `https://demoqa.com/Account/v1/User/${state.userId}`, response, null, this.attach);
+    EvidenceHelper.recordApiCall(`6. Consultar Detalhes do Usuário (GET /Account/v1/User/${state.userId})`, `https://demoqa.com/Account/v1/User/${state.userId}`, "GET", response, null, this.attach);
   });
 });
 

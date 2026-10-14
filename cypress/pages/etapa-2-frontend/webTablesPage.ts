@@ -1,3 +1,5 @@
+import { BasePage } from "../BasePage";
+
 export interface TableRecordData {
   firstName: string;
   lastName: string;
@@ -7,7 +9,7 @@ export interface TableRecordData {
   department: string;
 }
 
-export class WebTablesPage {
+export class WebTablesPage extends BasePage {
   private homeCardElements = ".category-cards .card";
   private buttonAdd = "#addNewRecordButton";
   private inputFirstName = "#firstName";
@@ -22,8 +24,7 @@ export class WebTablesPage {
   private selectPageSize = "select";
 
   visitHome() {
-    cy.visit("/");
-    this.removeAdsAndFooter();
+    this.visitHomePage();
   }
 
   navigateToWebTables() {
@@ -93,16 +94,5 @@ export class WebTablesPage {
   validateRecordNotInTable(email: string) {
     this.searchRecord(email);
     cy.get(this.tableBody).should("not.contain.text", email);
-  }
-
-  private removeAdsAndFooter() {
-    cy.get("body").then(($body) => {
-      if ($body.find("#fixedban").length > 0) {
-        cy.get("#fixedban").invoke("remove");
-      }
-      if ($body.find("footer").length > 0) {
-        cy.get("footer").invoke("remove");
-      }
-    });
   }
 }

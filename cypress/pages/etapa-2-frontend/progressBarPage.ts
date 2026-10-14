@@ -1,12 +1,13 @@
-export class ProgressBarPage {
+import { BasePage } from "../BasePage";
+
+export class ProgressBarPage extends BasePage {
   private homeCardWidgets = ".category-cards .card";
   private buttonStartStop = "#startStopButton";
   private progressBar = "#progressBar [role='progressbar']";
   private buttonReset = "#resetButton";
 
   visitHome() {
-    cy.visit("/");
-    this.removeAdsAndFooter();
+    this.visitHomePage();
   }
 
   navigateToProgressBar() {
@@ -20,14 +21,16 @@ export class ProgressBarPage {
     cy.get(this.buttonStartStop).scrollIntoView().click();
   }
 
-  stopBeforeOrAt25Percent() {
-    // Monitora o progresso até atingir entre 15% e 24% para garantir parada <= 25%
-    const pollAndStop = () => {
+  stopBeforeOrAt25Percent(maxAttempts: number = 200) {
+    const pollAndStop = (attempt: number = 0) => {
+      if (attempt >= maxAttempts) {
+        throw new Error(`Barra de progresso não avançou após ${maxAttempts} tentativas de polling`);
+      }
       cy.get(this.progressBar).invoke("attr", "aria-valuenow").then((val) => {
         const current = parseInt(val || "0", 10);
         if (current < 18) {
           cy.wait(40);
-          pollAndStop();
+          pollAndStop(attempt + 1);
         } else {
           cy.get(this.buttonStartStop).click();
         }
@@ -57,16 +60,5 @@ export class ProgressBarPage {
     this.removeAdsAndFooter();
     cy.get(this.buttonReset, { timeout: 5000 }).should("be.visible").click();
     cy.get(this.progressBar).should("have.attr", "aria-valuenow", "0");
-  }
-
-  private removeAdsAndFooter() {
-    cy.get("body").then(($body) => {
-      if ($body.find("#fixedban").length > 0) {
-        cy.get("#fixedban").invoke("remove");
-      }
-      if ($body.find("footer").length > 0) {
-        cy.get("footer").invoke("remove");
-      }
-    });
   }
 }

@@ -10,11 +10,13 @@ A aplicação-alvo dos testes é a plataforma [DemoQA](https://demoqa.com).
 
 | Item Solicitado | Onde Encontrar | Status |
 | :--- | :--- | :---: |
-| **Cenários de teste mapeados em BDD (Gherkin)** | [`docs/cenarios-gherkin.md`](docs/cenarios-gherkin.md) | ✅ Concluído |
-| **Etapa 1: Automação de API (BookStore & Account)** | [`cypress/e2e/features/etapa-1-api/`](cypress/e2e/features/etapa-1-api/) | ✅ Concluído |
+| **Cenários de teste mapeados em BDD (Gherkin)** | [`docs/cenarios-gherkin.md`](docs/cenarios-gherkin.md) | ✅ Concluído (24 cenários) |
+| **Etapa 1: Automação de API (BookStore & Account)** | [`cypress/e2e/features/etapa-1-api/`](cypress/e2e/features/etapa-1-api/) | ✅ Concluído (6 pos + 6 neg) |
 | **Evidências de execução da Etapa 1 (Logs, Payloads, Status)** | [`docs/evidencias/etapa-1-api/`](docs/evidencias/etapa-1-api/) | ✅ Concluído |
-| **Etapa 2: Automação Frontend (5 cenários + bônus de 12 registros)** | [`cypress/e2e/features/etapa-2-frontend/`](cypress/e2e/features/etapa-2-frontend/) | ✅ Concluído |
+| **Etapa 2: Automação Frontend (5 cenários + bônus de 12 registros)** | [`cypress/e2e/features/etapa-2-frontend/`](cypress/e2e/features/etapa-2-frontend/) | ✅ Concluído (6 pos + 6 neg) |
 | **Evidências de execução da Etapa 2 (Screenshots e Relatórios)** | [`docs/evidencias/etapa-2-frontend/`](docs/evidencias/etapa-2-frontend/) | ✅ Concluído |
+| **Cenários Negativos e Resiliência (API + Frontend)** | [`cypress/e2e/features/`](cypress/e2e/features/) | ✅ Concluído (12 cenários) |
+| **Pipeline de Integração Contínua (CI/CD)** | [`docs/ci/cypress-ci.yml`](docs/ci/cypress-ci.yml) | ✅ Concluído |
 | **README com guia de execução e arquitetura do projeto** | [`README.md`](README.md) *(este documento)* | ✅ Concluído |
 
 ---
@@ -25,7 +27,9 @@ O projeto é organizado por etapas de entrega e responsabilidades bem definidas:
 
 ```text
 ├── docs/
-│   ├── cenarios-gherkin.md                  # Especificação BDD de todas as funcionalidades (Etapa 1 e Etapa 2)
+│   ├── cenarios-gherkin.md                  # Especificação BDD de todas as funcionalidades (24 cenários)
+│   ├── ci/
+│   │   └── cypress-ci.yml                   # Pipeline de CI/CD para GitHub Actions
 │   └── evidencias/                          # Evidências versionadas de execução
 │       ├── etapa-1-api/
 │       │   ├── api_execution_evidence.md    # Relatório detalhado com tabelas, status, payloads e tempos
@@ -46,20 +50,26 @@ O projeto é organizado por etapas de entrega e responsabilidades bem definidas:
 │   ├── e2e/
 │   │   ├── features/                        # Arquivos de especificação BDD (.feature)
 │   │   │   ├── etapa-1-api/
-│   │   │   │   └── bookstore_account.feature
+│   │   │   │   ├── bookstore_account.feature
+│   │   │   │   └── bookstore_account_negative.feature
 │   │   │   └── etapa-2-frontend/
 │   │   │       ├── practice_form.feature
+│   │   │       ├── practice_form_negative.feature
 │   │   │       ├── browser_windows.feature
 │   │   │       ├── web_tables.feature
+│   │   │       ├── web_tables_negative.feature
 │   │   │       ├── progress_bar.feature
 │   │   │       └── sortable.feature
 │   │   └── step_definitions/                # Implementação dos passos dos testes (TypeScript)
 │   │       ├── etapa-1-api/
-│   │       │   └── bookstore_account.steps.ts
+│   │       │   ├── bookstore_account.steps.ts
+│   │       │   └── bookstore_account_negative.steps.ts
 │   │       └── etapa-2-frontend/
 │   │           ├── practice_form.steps.ts
+│   │           ├── practice_form_negative.steps.ts
 │   │           ├── browser_windows.steps.ts
 │   │           ├── web_tables.steps.ts
+│   │           ├── web_tables_negative.steps.ts
 │   │           ├── progress_bar.steps.ts
 │   │           └── sortable.steps.ts
 │   ├── services/                            # Camada de serviços de API (Service Object Pattern)
@@ -67,12 +77,13 @@ O projeto é organizado por etapas de entrega e responsabilidades bem definidas:
 │   │       ├── accountService.ts            # Gerenciamento de usuários e autenticação
 │   │       └── bookStoreService.ts          # Consulta do catálogo e locação de livros
 │   ├── pages/                               # Page Objects para automação de UI (Etapa 2)
+│   │   ├── BasePage.ts                      # Classe base com helpers globais de limpeza e navegação
 │   │   └── etapa-2-frontend/
-│   │       ├── practiceFormPage.ts          # Page Object para formulário de estudante
-│   │       ├── browserWindowsPage.ts        # Page Object para manipulação de abas/janelas
-│   │       ├── webTablesPage.ts             # Page Object para manipulação de tabelas e registros
-│   │       ├── progressBarPage.ts           # Page Object para controle da barra de progresso
-│   │       └── sortablePage.ts              # Page Object para reordenação via drag and drop
+│   │       ├── practiceFormPage.ts          # Page Object para formulário de estudante (extends BasePage)
+│   │       ├── browserWindowsPage.ts        # Page Object para manipulação de abas/janelas (extends BasePage)
+│   │       ├── webTablesPage.ts             # Page Object para manipulação de tabelas e registros (extends BasePage)
+│   │       ├── progressBarPage.ts           # Page Object para controle da barra de progresso (extends BasePage)
+│   │       └── sortablePage.ts              # Page Object para reordenação via drag and drop (extends BasePage)
 │   ├── fixtures/                            # Massas de dados estáticas e arquivos para upload (.txt)
 │   │   └── sample-upload.txt
 │   └── support/
@@ -96,8 +107,12 @@ O projeto é organizado por etapas de entrega e responsabilidades bem definidas:
 * **BDD / Gherkin:** `@badeball/cypress-cucumber-preprocessor` com bundler `@bahmutov/cypress-esbuild-preprocessor`.
 * **Geração de Dados Dinâmicos:** `@faker-js/faker` (evita massa viciada e conflito de duplicidade).
 * **Design Patterns:**
-  * **Service Object Pattern:** Isolamento das rotas, headers e payloads da API.
-  * **Page Object Pattern (POM):** Encapsulamento de seletores e ações de tela (Etapa 2).
+  * **BasePage Pattern:** Centralização de comportamento global de navegação e sanitização de DOM (remoção de anúncios e rodapés interceptadores).
+  * **Page Object Pattern (POM):** Encapsulamento estrito de seletores e ações de tela para cada funcionalidade.
+  * **Service Object Pattern:** Isolamento das rotas, headers, payloads e tipagens da API BookStore/Account.
+  * **Teardown & Cleanup Pattern:** Limpeza automática de massa e remoção de usuários gerados via hook `After`.
+* **Integração Contínua (CI/CD):**
+  * Especificação e template de workflow para o **GitHub Actions** em [`docs/ci/cypress-ci.yml`](docs/ci/cypress-ci.yml) com execução headless e publicação de relatórios.
 * **Relatórios e Evidências:**
   * [Multiple Cucumber HTML Reporter](https://github.com/WasiqB/multiple-cucumber-html-reporter) para dashboards visuais.
   * Markdown e JSON estruturados em `docs/evidencias/` com o ciclo completo de cada requisição.
@@ -126,11 +141,12 @@ npm install
 
 | Comando | Descrição |
 |---|---|
-| `npm run test:api` | Executa a suíte de testes de **API (Etapa 1)** em modo headless |
+| `npm run test:api` | Executa a suíte de testes de **API (Etapa 1)** em modo headless (positivos e negativos) |
 | `npm run test:api:report` | Executa a **Etapa 1** e gera automaticamente o relatório HTML e evidências |
-| `npm run test:frontend` | Executa a suíte de testes de **Frontend (Etapa 2)** em modo headless |
+| `npm run test:frontend` | Executa a suíte de testes de **Frontend (Etapa 2)** em modo headless (positivos e negativos) |
 | `npm run test:frontend:report` | Executa a **Etapa 2** e gera o relatório consolidado |
-| `npm run test:all:report` | Executa **todos os testes (API + Frontend)** e consolida no relatório |
+| `npm run test:negative` | Executa exclusivamente a suíte de **cenários negativos (API + Frontend)** |
+| `npm run test:all:report` | Executa **todos os 24 testes (API + Frontend)** e consolida no relatório |
 | `npm run test:open` | Abre a **interface gráfica interativa** do Cypress |
 | `npm run report` | Gera o relatório visual em HTML a partir dos últimos resultados |
 
@@ -211,15 +227,39 @@ A **Etapa 2** contempla a automação completa dos elementos visuais e comportam
 
 ---
 
+## 🛡️ Cenários Negativos (Resiliência e Tratamento de Erros)
+
+Além dos cenários do caminho feliz, o projeto conta com **12 cenários negativos adicionais** cobrindo resiliência, validação de campos e tratamento de erros:
+
+### API (6 cenários negativos em `bookstore_account_negative.feature`):
+1. **Usuário duplicado:** Tentativa de criar conta com username já registrado (`406 Not Acceptable`).
+2. **Senha incorreta:** Geração de token com credenciais inválidas (`status: "Failed"`, token nulo).
+3. **Autorização negada:** Verificação de autorização com senha errada (`false`).
+4. **Token forjado:** Acesso aos dados do usuário com token adulterado (`401 Unauthorized`).
+5. **Livro duplicado:** Tentativa de alugar o mesmo livro duas vezes (`400 Bad Request`).
+6. **Payload incompleto:** Criação de usuário sem campo de senha (`400 Bad Request`).
+
+### Frontend (6 cenários negativos em `practice_form_negative.feature` e `web_tables_negative.feature`):
+1. **Campos obrigatórios:** Submissão do Practice Form sem preenchimento (`.was-validated`, bordas vermelhas).
+2. **Email inválido (Form):** Submissão com formato de email incorreto (`validity.valid === false`).
+3. **Telefone curto:** Submissão com número menor que 10 dígitos.
+4. **Registro vazio (Tables):** Submissão de novo colaborador sem dados.
+5. **Busca sem retorno:** Pesquisa por termo inexistente com validação da mensagem *"No rows found"*.
+6. **Email inválido (Tables):** Tentativa de inclusão de colaborador com email sem formato válido.
+
+---
+
 ## 📈 Consolidação Geral dos Testes (API + Frontend)
 
-* **Total de Specs:** 6
-* **Total de Cenários BDD:** 12
-* **Cenários Aprovados:** 12 (100%)
-* **Cenários Reprovados:** 0 (0%)
-* **Tempo Total de Execução:** ~1 minuto e 50 segundos
+* **Total de Specs:** 9
+* **Total de Cenários BDD:** 24 (12 positivos + 12 negativos)
+  * **API:** 12 cenários (6 positivos + 6 negativos)
+  * **Frontend:** 12 cenários (6 positivos + 6 negativos)
+* **Padrões de Arquitetura:** BasePage + Page Object + Service Object
+* **CI/CD:** Pipeline configurada para o GitHub Actions em [`docs/ci/cypress-ci.yml`](docs/ci/cypress-ci.yml)
+* **Taxa de Sucesso:** 100%
 
 ---
 
 **Autor:** Victor Cezari Nascimento  
-**Data:** 13/10/2026
+**Data:** 13/10/2026 (Atualizado: 14/10/2026)

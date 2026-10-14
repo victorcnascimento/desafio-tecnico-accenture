@@ -33,12 +33,24 @@
 | **CT-API-04** | Passo 4: Listar os livros disponíveis no catálogo | `@api` `@passo4` `@listar_livros` | [`cypress/e2e/features/etapa-1-api/bookstore_account.feature`](../cypress/e2e/features/etapa-1-api/bookstore_account.feature) | [`cypress/e2e/step_definitions/etapa-1-api/bookstore_account.steps.ts`](../cypress/e2e/step_definitions/etapa-1-api/bookstore_account.steps.ts) | [`docs/evidencias/etapa-1-api/api_execution_evidence.md`](evidencias/etapa-1-api/api_execution_evidence.md) | ✅ Passou |
 | **CT-API-05** | Passo 5: Alugar dois livros de livre escolha | `@api` `@passo5` `@alugar_livros` | [`cypress/e2e/features/etapa-1-api/bookstore_account.feature`](../cypress/e2e/features/etapa-1-api/bookstore_account.feature) | [`cypress/e2e/step_definitions/etapa-1-api/bookstore_account.steps.ts`](../cypress/e2e/step_definitions/etapa-1-api/bookstore_account.steps.ts) | [`docs/evidencias/etapa-1-api/api_execution_evidence.md`](evidencias/etapa-1-api/api_execution_evidence.md) | ✅ Passou |
 | **CT-API-06** | Passo 6: Listar os detalhes do usuário com os livros escolhidos | `@api` `@passo6` `@detalhes_usuario` | [`cypress/e2e/features/etapa-1-api/bookstore_account.feature`](../cypress/e2e/features/etapa-1-api/bookstore_account.feature) | [`cypress/e2e/step_definitions/etapa-1-api/bookstore_account.steps.ts`](../cypress/e2e/step_definitions/etapa-1-api/bookstore_account.steps.ts) | [`docs/evidencias/etapa-1-api/api_execution_evidence.md`](evidencias/etapa-1-api/api_execution_evidence.md) | ✅ Passou |
+| **CT-API-NEG-01** | Negativo: Criar usuário com username duplicado | `@api` `@negativo` `@usuario_duplicado` | [`cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature`](../cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature) | [`cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts) | Relatório Cucumber | ✅ Concluído |
+| **CT-API-NEG-02** | Negativo: Gerar token com senha inválida | `@api` `@negativo` `@credenciais_invalidas` | [`cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature`](../cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature) | [`cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts) | Relatório Cucumber | ✅ Concluído |
+| **CT-API-NEG-03** | Negativo: Verificar autorização com credenciais inválidas | `@api` `@negativo` `@autorizacao_invalida` | [`cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature`](../cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature) | [`cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts) | Relatório Cucumber | ✅ Concluído |
+| **CT-API-NEG-04** | Negativo: Acessar detalhes com token forjado/inválido | `@api` `@negativo` `@token_invalido` | [`cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature`](../cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature) | [`cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts) | Relatório Cucumber | ✅ Concluído |
+| **CT-API-NEG-05** | Negativo: Alugar livro já existente na coleção | `@api` `@negativo` `@livro_duplicado` | [`cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature`](../cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature) | [`cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts) | Relatório Cucumber | ✅ Concluído |
+| **CT-API-NEG-06** | Negativo: Criar usuário sem campo de senha | `@api` `@negativo` `@usuario_sem_campo` | [`cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature`](../cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature) | [`cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-1-api/bookstore_account_negative.steps.ts) | Relatório Cucumber | ✅ Concluído |
 | **CT-UI-01** | Submissão de Practice Form com dados randômicos e upload | `@frontend` `@forms` `@etapa2` | [`cypress/e2e/features/etapa-2-frontend/practice_form.feature`](../cypress/e2e/features/etapa-2-frontend/practice_form.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/practice_form.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/practice_form.steps.ts) | [`docs/evidencias/etapa-2-frontend/CT01_practice_form_modal.png`](evidencias/etapa-2-frontend/CT01_practice_form_modal.png) | ✅ Passou |
 | **CT-UI-02** | Validação de texto em nova janela do navegador | `@frontend` `@windows` `@etapa2` | [`cypress/e2e/features/etapa-2-frontend/browser_windows.feature`](../cypress/e2e/features/etapa-2-frontend/browser_windows.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/browser_windows.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/browser_windows.steps.ts) | [`docs/evidencias/etapa-2-frontend/CT02_browser_windows_sample.png`](evidencias/etapa-2-frontend/CT02_browser_windows_sample.png) | ✅ Passou |
 | **CT-UI-03** | CRUD de registro na Web Tables | `@frontend` `@webtables` `@crud` `@etapa2` | [`cypress/e2e/features/etapa-2-frontend/web_tables.feature`](../cypress/e2e/features/etapa-2-frontend/web_tables.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/web_tables.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/web_tables.steps.ts) | [`docs/evidencias/etapa-2-frontend/CT03_webtables_registro_criado.png`](evidencias/etapa-2-frontend/CT03_webtables_registro_criado.png) | ✅ Passou |
 | **CT-UI-04** | Inserção e remoção dinâmica de 12 registros (Bônus) | `@frontend` `@webtables` `@bonus` `@etapa2` | [`cypress/e2e/features/etapa-2-frontend/web_tables.feature`](../cypress/e2e/features/etapa-2-frontend/web_tables.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/web_tables.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/web_tables.steps.ts) | [`docs/evidencias/etapa-2-frontend/CT04_webtables_12_registros_criados.png`](evidencias/etapa-2-frontend/CT04_webtables_12_registros_criados.png) | ✅ Passou |
 | **CT-UI-05** | Controle de parada e reset da Progress Bar | `@frontend` `@progressbar` `@etapa2` | [`cypress/e2e/features/etapa-2-frontend/progress_bar.feature`](../cypress/e2e/features/etapa-2-frontend/progress_bar.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/progress_bar.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/progress_bar.steps.ts) | [`docs/evidencias/etapa-2-frontend/CT05_progress_bar_reset.png`](evidencias/etapa-2-frontend/CT05_progress_bar_reset.png) | ✅ Passou |
 | **CT-UI-06** | Ordenação de lista crescente via Drag and Drop | `@frontend` `@sortable` `@draganddrop` `@etapa2` | [`cypress/e2e/features/etapa-2-frontend/sortable.feature`](../cypress/e2e/features/etapa-2-frontend/sortable.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/sortable.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/sortable.steps.ts) | [`docs/evidencias/etapa-2-frontend/CT06_sortable_ordenado.png`](evidencias/etapa-2-frontend/CT06_sortable_ordenado.png) | ✅ Passou |
+| **CT-UI-NEG-01** | Negativo: Submeter Practice Form sem campos obrigatórios | `@frontend` `@forms` `@negativo` `@campos_obrigatorios` | [`cypress/e2e/features/etapa-2-frontend/practice_form_negative.feature`](../cypress/e2e/features/etapa-2-frontend/practice_form_negative.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/practice_form_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/practice_form_negative.steps.ts) | Screenshot / Relatório | ✅ Concluído |
+| **CT-UI-NEG-02** | Negativo: Submeter Practice Form com email inválido | `@frontend` `@forms` `@negativo` `@email_invalido` | [`cypress/e2e/features/etapa-2-frontend/practice_form_negative.feature`](../cypress/e2e/features/etapa-2-frontend/practice_form_negative.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/practice_form_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/practice_form_negative.steps.ts) | Screenshot / Relatório | ✅ Concluído |
+| **CT-UI-NEG-03** | Negativo: Submeter Practice Form com celular incompleto | `@frontend` `@forms` `@negativo` `@mobile_incompleto` | [`cypress/e2e/features/etapa-2-frontend/practice_form_negative.feature`](../cypress/e2e/features/etapa-2-frontend/practice_form_negative.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/practice_form_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/practice_form_negative.steps.ts) | Screenshot / Relatório | ✅ Concluído |
+| **CT-UI-NEG-04** | Negativo: Submeter formulário Web Tables vazio | `@frontend` `@webtables` `@negativo` `@formulario_vazio` | [`cypress/e2e/features/etapa-2-frontend/web_tables_negative.feature`](../cypress/e2e/features/etapa-2-frontend/web_tables_negative.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/web_tables_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/web_tables_negative.steps.ts) | Screenshot / Relatório | ✅ Concluído |
+| **CT-UI-NEG-05** | Negativo: Buscar registro inexistente na Web Tables | `@frontend` `@webtables` `@negativo` `@busca_inexistente` | [`cypress/e2e/features/etapa-2-frontend/web_tables_negative.feature`](../cypress/e2e/features/etapa-2-frontend/web_tables_negative.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/web_tables_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/web_tables_negative.steps.ts) | Screenshot / Relatório | ✅ Concluído |
+| **CT-UI-NEG-06** | Negativo: Cadastrar registro com email inválido na Web Tables | `@frontend` `@webtables` `@negativo` `@email_invalido_tabela` | [`cypress/e2e/features/etapa-2-frontend/web_tables_negative.feature`](../cypress/e2e/features/etapa-2-frontend/web_tables_negative.feature) | [`cypress/e2e/step_definitions/etapa-2-frontend/web_tables_negative.steps.ts`](../cypress/e2e/step_definitions/etapa-2-frontend/web_tables_negative.steps.ts) | Screenshot / Relatório | ✅ Concluído |
 
 ---
 
@@ -179,6 +191,112 @@ Para dispor os elementos em ordem crescente
 * **Dado** que o usuário acessa o submenu "Sortable" na seção Interactions  
 * **Quando** reordena os elementos através do método de arrastar e soltar  
 * **Então** os itens devem estar dispostos na ordem sequencial exata de "One" a "Six"  
+
+---
+
+### 📌 PARTE 3: Cenários Negativos de API (DemoQA BookStore & Account)
+
+#### Funcionalidade: Cenários Negativos - API BookStore e Account
+Como um testador de qualidade  
+Quero validar cenários negativos da API  
+Para garantir que o sistema trata erros adequadamente  
+
+**@api @etapa1 @negativo @usuario_duplicado**  
+**Cenário: Tentativa de criar um usuário com username já existente**  
+* **Dado** que um usuário já foi criado com credenciais válidas  
+* **Quando** envio uma requisição para criar outro usuário com o mesmo username  
+* **Então** a API deve retornar o status 406 Not Acceptable  
+* **E** a mensagem de erro deve indicar que o usuário já existe  
+
+**@api @etapa1 @negativo @credenciais_invalidas**  
+**Cenário: Tentativa de gerar token com senha inválida**  
+* **Dado** que um usuário válido existe no sistema  
+* **Quando** solicito a geração de token com uma senha incorreta  
+* **Então** a API deve retornar o status 200 com status Failed  
+* **E** o token retornado deve ser nulo  
+
+**@api @etapa1 @negativo @autorizacao_invalida**  
+**Cenário: Verificar autorização com credenciais inválidas**  
+* **Dado** que um usuário válido existe no sistema  
+* **Quando** verifico a autorização com uma senha incorreta  
+* **Então** a API deve retornar false indicando não autorização  
+
+**@api @etapa1 @negativo @token_invalido**  
+**Cenário: Acessar detalhes do usuário com token inválido**  
+* **Dado** que um usuário válido existe no sistema  
+* **Quando** consulto os detalhes do usuário com um token forjado  
+* **Então** a API deve retornar o status 401 Unauthorized  
+
+**@api @etapa1 @negativo @livro_duplicado**  
+**Cenário: Tentativa de alugar um livro já alugado pelo mesmo usuário**  
+* **Dado** que um usuário possui livros alugados em sua conta  
+* **Quando** tento alugar novamente o mesmo livro já reservado  
+* **Então** a API deve retornar o status 400 Bad Request  
+* **E** a mensagem de erro deve indicar que o livro já está na coleção  
+
+**@api @etapa1 @negativo @usuario_sem_campo**  
+**Cenário: Tentativa de criar usuário sem enviar senha**  
+* **Quando** envio uma requisição para criar usuário sem o campo senha  
+* **Então** a API deve retornar o status 400 indicando campo obrigatório  
+
+---
+
+### 📌 PARTE 4: Cenários Negativos de Frontend (DemoQA UI)
+
+#### Funcionalidade: Cenários Negativos - Formulário de Estudante (Practice Form)
+Como um testador de qualidade  
+Quero validar cenários negativos do formulário  
+Para garantir que validações de campos funcionam corretamente  
+
+**@frontend @forms @etapa2 @negativo @campos_obrigatorios**  
+**Cenário: Submeter formulário sem preencher campos obrigatórios**  
+* **Dado** que o usuário navega até o submenu "Practice Form" na seção Forms  
+* **Quando** tenta submeter o formulário sem preencher nenhum campo  
+* **Então** os campos obrigatórios devem ser destacados com indicação visual de erro  
+* **E** o popup de confirmação não deve ser exibido  
+
+**@frontend @forms @etapa2 @negativo @email_invalido**  
+**Cenário: Submeter formulário com email em formato inválido**  
+* **Dado** que o usuário navega até o submenu "Practice Form" na seção Forms  
+* **Quando** preenche o campo de email com um valor inválido "email-invalido"  
+* **E** preenche os demais campos obrigatórios com dados válidos  
+* **E** tenta submeter o formulário  
+* **Então** o campo de email deve apresentar indicação visual de erro  
+* **E** o popup de confirmação não deve ser exibido  
+
+**@frontend @forms @etapa2 @negativo @mobile_incompleto**  
+**Cenário: Submeter formulário com número de celular incompleto**  
+* **Dado** que o usuário navega até o submenu "Practice Form" na seção Forms  
+* **Quando** preenche o campo de celular com menos de 10 dígitos "12345"  
+* **E** preenche os demais campos obrigatórios exceto celular com dados válidos  
+* **E** tenta submeter o formulário  
+* **Então** o campo de celular deve apresentar indicação visual de erro  
+* **E** o popup de confirmação não deve ser exibido  
+
+---
+
+#### Funcionalidade: Cenários Negativos - Tabela Web (Web Tables)
+Como um testador de qualidade  
+Quero validar cenários negativos da tabela de registros  
+Para garantir que validações e buscas funcionam corretamente  
+
+**@frontend @webtables @etapa2 @negativo @formulario_vazio**  
+**Cenário: Submeter formulário de registro sem preencher campos**  
+* **Dado** que o usuário navega até o submenu "Web Tables" na seção Elements  
+* **Quando** tenta adicionar um registro sem preencher nenhum campo  
+* **Então** o formulário de registro deve permanecer aberto com indicação de erro  
+
+**@frontend @webtables @etapa2 @negativo @busca_inexistente**  
+**Cenário: Buscar por um registro inexistente na tabela**  
+* **Dado** que o usuário navega até o submenu "Web Tables" na seção Elements  
+* **Quando** realiza uma busca por um valor inexistente "registro_que_nao_existe_xyz"  
+* **Então** a tabela deve exibir a mensagem indicando que não há registros encontrados  
+
+**@frontend @webtables @etapa2 @negativo @email_invalido_tabela**  
+**Cenário: Tentar cadastrar registro com email em formato inválido**  
+* **Dado** que o usuário navega até o submenu "Web Tables" na seção Elements  
+* **Quando** tenta adicionar um registro com email inválido "email-sem-arroba"  
+* **Então** o formulário de registro deve permanecer aberto indicando email inválido  
 
 ---
 

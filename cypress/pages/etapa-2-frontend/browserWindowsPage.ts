@@ -1,11 +1,12 @@
-export class BrowserWindowsPage {
+import { BasePage } from "../BasePage";
+
+export class BrowserWindowsPage extends BasePage {
   private homeCardAlerts = ".category-cards .card";
   private buttonNewWindow = "#windowButton";
   private headingSample = "#sampleHeading";
 
   visitHome() {
-    cy.visit("/");
-    this.removeAdsAndFooter();
+    this.visitHomePage();
   }
 
   navigateToBrowserWindows() {
@@ -34,16 +35,5 @@ export class BrowserWindowsPage {
   closeAndReturnToMainWindow() {
     cy.visit("/browser-windows");
     cy.get(this.buttonNewWindow).should("be.visible");
-  }
-
-  private removeAdsAndFooter() {
-    cy.get("body").then(($body) => {
-      if ($body.find("#fixedban").length > 0) {
-        cy.get("#fixedban").invoke("remove");
-      }
-      if ($body.find("footer").length > 0) {
-        cy.get("footer").invoke("remove");
-      }
-    });
   }
 }

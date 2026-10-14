@@ -71,4 +71,15 @@ export class AccountService {
       failOnStatusCode: false,
     });
   }
+
+  deleteUser(userId: string, token: string): Cypress.Chainable<Cypress.Response<any>> {
+    return cy.request<any>({
+      method: "DELETE",
+      url: `${this.baseUrl}/Account/v1/User/${userId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      failOnStatusCode: false,
+    });
+  }
 }

@@ -1,10 +1,11 @@
-export class SortablePage {
+import { BasePage } from "../BasePage";
+
+export class SortablePage extends BasePage {
   private homeCardInteractions = ".category-cards .card";
   private listItemsSelector = "#demo-tabpane-list .vertical-list-container .list-group-item";
 
   visitHome() {
-    cy.visit("/");
-    this.removeAdsAndFooter();
+    this.visitHomePage();
   }
 
   navigateToSortable() {
@@ -59,19 +60,27 @@ export class SortablePage {
   sortItemsAscending() {
     const expectedOrder = ["One", "Two", "Three", "Four", "Five", "Six"];
 
-    // Verifica a ordem atual e aplica drag and drop se necessário
+    // Algoritmo genérico: para cada posição, encontra o item correto e arrasta para a posição
     this.getCurrentOrder().then((currentOrder) => {
       cy.log("Ordem inicial dos itens: " + JSON.stringify(currentOrder));
 
-      // Se já estiver na ordem ou para garantir a execução do drag and drop exigido pelo desafio:
-      // Realizamos um drag demonstrando a capacidade técnica
-      const isAlreadySorted = JSON.stringify(currentOrder) === JSON.stringify(expectedOrder);
-      if (isAlreadySorted) {
-        cy.log("Itens já estavam ordenados inicialmente. Executando drag para reordenar e restabelecer ordem crescente.");
-        // Move 'Six' para a posição inicial e depois reordena para a ordem crescente
-        this.dragAndDrop("Six", "One");
-        this.dragAndDrop("Six", "Five");
-      }
+      const sortStep = (index: number) => {
+        if (index >= expectedOrder.length) return;
+
+        this.getCurrentOrder().then((order) => {
+          const currentIndex = order.indexOf(expectedOrder[index]);
+          if (currentIndex !== index && currentIndex !== -1) {
+            // Arrasta o item da posição atual para a posição destino
+            this.dragAndDrop(expectedOrder[index], order[index]);
+            cy.wait(200);
+            sortStep(index);
+          } else {
+            sortStep(index + 1);
+          }
+        });
+      };
+
+      sortStep(0);
     });
   }
 
@@ -79,17 +88,6 @@ export class SortablePage {
     const expectedOrder = ["One", "Two", "Three", "Four", "Five", "Six"];
     this.getListItems().each(($item, index) => {
       cy.wrap($item).should("have.text", expectedOrder[index]);
-    });
-  }
-
-  private removeAdsAndFooter() {
-    cy.get("body").then(($body) => {
-      if ($body.find("#fixedban").length > 0) {
-        cy.get("#fixedban").invoke("remove");
-      }
-      if ($body.find("footer").length > 0) {
-        cy.get("footer").invoke("remove");
-      }
     });
   }
 }
