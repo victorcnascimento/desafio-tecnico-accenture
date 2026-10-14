@@ -97,11 +97,13 @@ O projeto é organizado por etapas de entrega e responsabilidades bem definidas:
 │   └── support/
 │       ├── utils/
 │       │   └── evidenceHelper.ts            # Utilitário central de coleta e registro de evidências
-│       └── e2e.ts                           # Configurações globais e polyfill para React 19 / DemoQA
+├── .github/
+│   └── workflows/
+│       └── cypress.yml                      # Pipeline de CI/CD para GitHub Actions
 ├── generate-report.mjs                      # Gerador do relatório consolidado em HTML
 ├── cypress.config.ts                        # Configuração do Cypress com esbuild e cucumber preprocessor
 ├── .cypress-cucumber-preprocessorrc.json    # Configurações do Cucumber BDD
-├── tsconfig.json                            # Configurações de compilação do TypeScript
+├── tsconfig.json                            # Configurações de compilação do TypeScript (bundler resolution)
 ├── package.json
 └── README.md
 ```
@@ -110,17 +112,21 @@ O projeto é organizado por etapas de entrega e responsabilidades bem definidas:
 
 ## 🛠️ Tecnologias e Padrões Adotados
 
-* **Linguagem:** [TypeScript](https://www.typescriptlang.org/) (tipagem estática, segurança e manutenibilidade).
+* **Linguagem:** [TypeScript](https://www.typescriptlang.org/) (tipagem estática rigorosa, validada com `tsc --noEmit`).
 * **Framework E2E & API:** [Cypress 16](https://www.cypress.io/).
 * **BDD / Gherkin:** `@badeball/cypress-cucumber-preprocessor` com bundler `@bahmutov/cypress-esbuild-preprocessor`.
 * **Geração de Dados Dinâmicos:** `@faker-js/faker` (evita massa viciada e conflito de duplicidade).
-* **Design Patterns:**
+* **Design Patterns & Melhores Práticas:**
   * **BasePage Pattern:** Centralização de comportamento global de navegação e sanitização de DOM (remoção de anúncios e rodapés interceptadores).
   * **Page Object Pattern (POM):** Encapsulamento estrito de seletores e ações de tela para cada funcionalidade.
   * **Service Object Pattern:** Isolamento das rotas, headers, payloads e tipagens da API BookStore/Account.
-  * **Teardown & Cleanup Pattern:** Limpeza automática de massa e remoção de usuários gerados via hook `After`.
+  * **Isolamento e Idempotência de Testes:** Cada cenário de API provisiona seu próprio usuário/token de forma independente, permitindo retries seguros (`retries: { runMode: 2 }`) sem colisões ou falhas em cascata.
+  * **Teardown & Cleanup Automatizado:** Remoção imediata de usuários de teste em hooks `After` para cada cenário, garantindo base limpa mesmo se a suíte for abortada.
+  * **Sanitização de Dados Sensíveis:** Mascaramento automático de senhas (`"********"`) e tokens JWT (`[MASKED_TOKEN]`) nos relatórios de evidências em Markdown e JSON.
+  * **Drag and Drop com Validação Real e Recursão Bounded:** Detecção de lista pré-ordenada com deslocamento forçado para exigir arraste efetivo (`totalDrags > 0`) e proteção contra loop infinito com limite de tentativas.
+  * **Validação Estrita de Estado Vazio e Exclusão:** Validação de 0 linhas em pesquisas sem resultado e conferência explícita item a item de exclusão dos 12 registros dinâmicos.
 * **Integração Contínua (CI/CD):**
-  * Especificação e template de workflow para o **GitHub Actions** em [`docs/ci/cypress-ci.yml`](docs/ci/cypress-ci.yml) com execução headless e publicação de relatórios.
+  * Workflow ativo do **GitHub Actions** em [`.github/workflows/cypress.yml`](.github/workflows/cypress.yml) e template documentado em [`docs/ci/cypress-ci.yml`](docs/ci/cypress-ci.yml).
 * **Relatórios e Evidências:**
   * [Multiple Cucumber HTML Reporter](https://github.com/WasiqB/multiple-cucumber-html-reporter) para dashboards visuais.
   * Markdown e JSON estruturados em `docs/evidencias/` com o ciclo completo de cada requisição.
@@ -157,6 +163,7 @@ npm install
 | `npm run test:all:report` | Executa **todos os 24 testes (API + Frontend)** e consolida no relatório |
 | `npm run test:open` | Abre a **interface gráfica interativa** do Cypress |
 | `npm run report` | Gera o relatório visual em HTML a partir dos últimos resultados |
+| `npx tsc --noEmit` | Validação estática de tipos TypeScript (código de saída 0 sem erros) |
 
 ---
 
