@@ -7,8 +7,11 @@ export default defineConfig({
   e2e: {
     specPattern: "cypress/e2e/features/**/*.feature",
     baseUrl: "https://demoqa.com",
+    viewportWidth: 1920,
+    viewportHeight: 1080,
     video: false,
     screenshotOnRunFailure: true,
+    trashAssetsBeforeRuns: false,
     chromeWebSecurity: false,
     async setupNodeEvents(on, config) {
       await addCucumberPreprocessorPlugin(on, config);

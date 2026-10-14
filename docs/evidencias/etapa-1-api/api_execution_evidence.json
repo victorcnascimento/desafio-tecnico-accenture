@@ -5,16 +5,16 @@
     "method": "HTTP",
     "status": 201,
     "requestPayload": {
-      "userName": "qa_user_A1HDV4_1791928110945",
-      "password": "QA@Passw0rd!0945"
+      "userName": "qa_user_gtK1oQ_1791935689017",
+      "password": "QA@Passw0rd!9017"
     },
     "responseBody": {
-      "userID": "8c08c772-caf5-40b8-a9a5-31b8bd6809c3",
-      "username": "qa_user_A1HDV4_1791928110945",
+      "userID": "18fe7db8-af0d-4e41-a65f-cfa27e59c468",
+      "username": "qa_user_gtK1oQ_1791935689017",
       "books": []
     },
-    "durationMs": 2031,
-    "timestamp": "2026-10-13T21:48:32.988Z"
+    "durationMs": 1933,
+    "timestamp": "2026-10-13T23:54:50.963Z"
   },
   {
     "step": "2. Gerar Token (POST /Account/v1/GenerateToken)",
@@ -22,17 +22,17 @@
     "method": "HTTP",
     "status": 200,
     "requestPayload": {
-      "userName": "qa_user_A1HDV4_1791928110945",
-      "password": "QA@Passw0rd!0945"
+      "userName": "qa_user_gtK1oQ_1791935689017",
+      "password": "QA@Passw0rd!9017"
     },
     "responseBody": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InFhX3VzZXJfQTFIRFY0XzE3OTE5MjgxMTA5NDUiLCJwYXNzd29yZCI6IlFBQFBhc3N3MHJkITA5NDUiLCJpYXQiOjE3OTE5MjgxMTN9.PA0OYyoj171YGYorMxm9lpujlQok5fAJmx4y7mv3Hk0",
-      "expires": "2026-10-20T21:48:33.433Z",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InFhX3VzZXJfZ3RLMW9RXzE3OTE5MzU2ODkwMTciLCJwYXNzd29yZCI6IlFBQFBhc3N3MHJkITkwMTciLCJpYXQiOjE3OTE5MzU2OTF9.DTXsx3f-a-qjnTsC94R-zHrDfSDfzsFCXHN5vdvU1ZM",
+      "expires": "2026-10-20T23:54:51.666Z",
       "status": "Success",
       "result": "User authorized successfully."
     },
-    "durationMs": 1500,
-    "timestamp": "2026-10-13T21:48:34.770Z"
+    "durationMs": 1296,
+    "timestamp": "2026-10-13T23:54:52.750Z"
   },
   {
     "step": "3. Verificar Autorização (POST /Account/v1/Authorized)",
@@ -40,12 +40,12 @@
     "method": "HTTP",
     "status": 200,
     "requestPayload": {
-      "userName": "qa_user_A1HDV4_1791928110945",
-      "password": "QA@Passw0rd!0945"
+      "userName": "qa_user_gtK1oQ_1791935689017",
+      "password": "QA@Passw0rd!9017"
     },
     "responseBody": true,
-    "durationMs": 795,
-    "timestamp": "2026-10-13T21:48:35.840Z"
+    "durationMs": 349,
+    "timestamp": "2026-10-13T23:54:53.601Z"
   },
   {
     "step": "4. Listar Livros Disponíveis (GET /BookStore/v1/Books)",
@@ -145,8 +145,8 @@
         }
       ]
     },
-    "durationMs": 219,
-    "timestamp": "2026-10-13T21:48:36.250Z"
+    "durationMs": 236,
+    "timestamp": "2026-10-13T23:54:54.116Z"
   },
   {
     "step": "5. Alugar Dois Livros (POST /BookStore/v1/Books)",
@@ -154,7 +154,7 @@
     "method": "HTTP",
     "status": 201,
     "requestPayload": {
-      "userId": "8c08c772-caf5-40b8-a9a5-31b8bd6809c3",
+      "userId": "18fe7db8-af0d-4e41-a65f-cfa27e59c468",
       "collectionOfIsbns": [
         {
           "isbn": "9781449325862"
@@ -174,18 +174,18 @@
         }
       ]
     },
-    "durationMs": 479,
-    "timestamp": "2026-10-13T21:48:36.905Z"
+    "durationMs": 476,
+    "timestamp": "2026-10-13T23:54:54.924Z"
   },
   {
-    "step": "6. Consultar Detalhes do Usuário (GET /Account/v1/User/8c08c772-caf5-40b8-a9a5-31b8bd6809c3)",
-    "endpoint": "https://demoqa.com/Account/v1/User/8c08c772-caf5-40b8-a9a5-31b8bd6809c3",
+    "step": "6. Consultar Detalhes do Usuário (GET /Account/v1/User/18fe7db8-af0d-4e41-a65f-cfa27e59c468)",
+    "endpoint": "https://demoqa.com/Account/v1/User/18fe7db8-af0d-4e41-a65f-cfa27e59c468",
     "method": "HTTP",
     "status": 200,
     "requestPayload": null,
     "responseBody": {
-      "userId": "8c08c772-caf5-40b8-a9a5-31b8bd6809c3",
-      "username": "qa_user_A1HDV4_1791928110945",
+      "userId": "18fe7db8-af0d-4e41-a65f-cfa27e59c468",
+      "username": "qa_user_gtK1oQ_1791935689017",
       "books": [
         {
           "isbn": "9781449325862",
@@ -212,6 +212,6 @@
       ]
     },
     "durationMs": 333,
-    "timestamp": "2026-10-13T21:48:37.771Z"
+    "timestamp": "2026-10-13T23:54:55.922Z"
   }
 ]
