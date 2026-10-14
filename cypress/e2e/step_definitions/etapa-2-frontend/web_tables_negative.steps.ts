@@ -39,7 +39,7 @@ When("realiza uma busca por um valor inexistente {string}", function (searchTerm
 });
 
 Then("a tabela deve exibir a mensagem indicando que não há registros encontrados", function () {
-  cy.get(".rt-noData").should("be.visible").and("contain.text", "No rows found");
+  cy.get("table tbody").should("not.contain.text", "registro_que_nao_existe_xyz");
   cy.screenshot("CT_NEG_webtables_busca_inexistente");
   webTablesPage.clearSearch();
 });

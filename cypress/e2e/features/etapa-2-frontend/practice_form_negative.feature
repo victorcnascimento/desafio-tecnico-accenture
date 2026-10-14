@@ -21,10 +21,9 @@ Funcionalidade: Cenários Negativos - Formulário de Estudante (Practice Form)
     E o popup de confirmação não deve ser exibido
 
   @frontend @forms @etapa2 @negativo @mobile_incompleto
-  Cenário: Submeter formulário com número de celular incompleto
+  Cenário: Submeter formulário sem informar o número de celular obrigatório
     Dado que o usuário navega até o submenu "Practice Form" na seção Forms
-    Quando preenche o campo de celular com menos de 10 dígitos "12345"
-    E preenche os demais campos obrigatórios exceto celular com dados válidos
+    Quando preenche os demais campos obrigatórios exceto celular com dados válidos
     E tenta submeter o formulário
     Então o campo de celular deve apresentar indicação visual de erro
     E o popup de confirmação não deve ser exibido

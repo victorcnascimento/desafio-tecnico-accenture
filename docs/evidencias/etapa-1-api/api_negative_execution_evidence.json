@@ -1,0 +1,100 @@
+[
+  {
+    "step": "Negativo 1: Criar Usuário Duplicado (POST /Account/v1/User)",
+    "endpoint": "https://demoqa.com/Account/v1/User",
+    "method": "POST",
+    "status": 406,
+    "requestPayload": {
+      "userName": "qa_neg_QpX2k0_1792001062162",
+      "password": "QA@Passw0rd!2162"
+    },
+    "responseBody": {
+      "code": "1204",
+      "message": "User exists!"
+    },
+    "durationMs": 785,
+    "timestamp": "2026-10-14T18:04:25.576Z"
+  },
+  {
+    "step": "Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken)",
+    "endpoint": "https://demoqa.com/Account/v1/GenerateToken",
+    "method": "POST",
+    "status": 200,
+    "requestPayload": {
+      "userName": "qa_neg_ZLmrzt_1792001067335",
+      "password": "SenhaErrada@123"
+    },
+    "responseBody": {
+      "token": null,
+      "expires": null,
+      "status": "Failed",
+      "result": "User authorization failed."
+    },
+    "durationMs": 1752,
+    "timestamp": "2026-10-14T18:04:31.961Z"
+  },
+  {
+    "step": "Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized)",
+    "endpoint": "https://demoqa.com/Account/v1/Authorized",
+    "method": "POST",
+    "status": 404,
+    "requestPayload": {
+      "userName": "qa_neg_Qpa8e8_1792001073600",
+      "password": "SenhaErrada@123"
+    },
+    "responseBody": {
+      "code": "1207",
+      "message": "User not found!"
+    },
+    "durationMs": 943,
+    "timestamp": "2026-10-14T18:04:37.056Z"
+  },
+  {
+    "step": "Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/3cbfb7f2-190b-4f23-af34-7b007ee4cbf4)",
+    "endpoint": "https://demoqa.com/Account/v1/User/3cbfb7f2-190b-4f23-af34-7b007ee4cbf4",
+    "method": "GET",
+    "status": 401,
+    "requestPayload": null,
+    "responseBody": {
+      "code": "1200",
+      "message": "User not authorized!"
+    },
+    "durationMs": 1222,
+    "timestamp": "2026-10-14T18:04:42.376Z"
+  },
+  {
+    "step": "Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books)",
+    "endpoint": "https://demoqa.com/BookStore/v1/Books",
+    "method": "POST",
+    "status": 400,
+    "requestPayload": {
+      "userId": "a4c7e606-8c88-4d0a-9866-54128fd45a72",
+      "collectionOfIsbns": [
+        {
+          "isbn": "9781449325862"
+        }
+      ]
+    },
+    "responseBody": {
+      "code": "1210",
+      "message": "ISBN already present in the User's Collection!"
+    },
+    "durationMs": 305,
+    "timestamp": "2026-10-14T18:04:46.778Z"
+  },
+  {
+    "step": "Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User)",
+    "endpoint": "https://demoqa.com/Account/v1/User",
+    "method": "POST",
+    "status": 400,
+    "requestPayload": {
+      "userName": "qa_nospass_1792001087646"
+    },
+    "responseBody": {
+      "code": "1200",
+      "message": "UserName and Password required."
+    },
+    "durationMs": 210,
+    "timestamp": "2026-10-14T18:04:47.863Z"
+  }
+]

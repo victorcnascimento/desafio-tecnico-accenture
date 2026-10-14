@@ -76,19 +76,26 @@ function ensureBooksRented(): Cypress.Chainable<void> {
   });
 }
 
-Before(function () {
-  EvidenceHelper.clearRecords();
+Before(function (scenario) {
+  const isFirstStep = scenario?.pickle?.name?.includes("1.") || scenario?.pickle?.tags?.some((t: any) => t.name === "@passo1");
+  if (isFirstStep) {
+    EvidenceHelper.clearRecords();
+  }
 });
 
-After(function () {
-  // Salvar evidências
+After(function (scenario) {
+  const isNegative = scenario?.pickle?.tags?.some((t: any) => t.name === "@negativo");
+  if (isNegative) return;
+
+  // Salvar evidências consolidadas
   EvidenceHelper.saveEvidenceReport("cypress/reports/evidence/api_execution_evidence.json");
   EvidenceHelper.saveMarkdownReport("cypress/reports/evidence/api_execution_evidence.md");
   EvidenceHelper.saveEvidenceReport("docs/evidencias/etapa-1-api/api_execution_evidence.json");
   EvidenceHelper.saveMarkdownReport("docs/evidencias/etapa-1-api/api_execution_evidence.md");
 
-  // Cleanup: deletar o usuário criado para não poluir a base
-  if (state.userId && state.token) {
+  // Cleanup: deletar o usuário criado apenas ao concluir o último passo da esteira
+  const isFinalStep = scenario?.pickle?.name?.includes("6.") || scenario?.pickle?.tags?.some((t: any) => t.name === "@passo6" || t.name === "@detalhes_usuario");
+  if (isFinalStep && state.userId && state.token) {
     accountService.deleteUser(state.userId, state.token).then((res) => {
       cy.log(`[CLEANUP] Usuário ${state.username} deletado com status: ${res.status}`);
     });

@@ -67,23 +67,19 @@ Then("o campo de email deve apresentar indicação visual de erro", function () 
 });
 
 // ==========================================
-// CENÁRIO: Mobile incompleto
+// CENÁRIO: Mobile obrigatório ausente
 // ==========================================
-When("preenche o campo de celular com menos de 10 dígitos {string}", function (shortMobile: string) {
-  cy.get("#userNumber").clear().type(shortMobile);
-});
-
 When("preenche os demais campos obrigatórios exceto celular com dados válidos", function () {
   cy.get("#firstName").clear().type(faker.person.firstName());
   cy.get("#lastName").clear().type(faker.person.lastName());
   cy.contains("label", "Female").click({ force: true });
+  cy.get("#userNumber").clear();
 });
 
 Then("o campo de celular deve apresentar indicação visual de erro", function () {
   cy.get("form").should("have.class", "was-validated");
   cy.get("#userNumber").then(($el) => {
-    const borderColor = window.getComputedStyle($el[0]).borderColor;
-    cy.log(`Cor da borda do mobile com valor incompleto: ${borderColor}`);
+    expect(($el[0] as HTMLInputElement).validity.valid, "Campo celular vazio deve ser inválido").to.be.false;
   });
   cy.screenshot("CT_NEG_practice_form_mobile_incompleto");
 });

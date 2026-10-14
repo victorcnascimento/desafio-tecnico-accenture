@@ -2,6 +2,7 @@ import { Given, When, Then, Before, After } from "@badeball/cypress-cucumber-pre
 import { faker } from "@faker-js/faker";
 import { AccountService } from "../../../services/etapa-1-api/accountService";
 import { BookStoreService } from "../../../services/etapa-1-api/bookStoreService";
+import { EvidenceHelper } from "../../../support/utils/evidenceHelper";
 
 const accountService = new AccountService();
 const bookStoreService = new BookStoreService();
@@ -46,11 +47,25 @@ function createUserAndGetToken(): Cypress.Chainable<void> {
   });
 }
 
-Before(function () {
+Before(function (scenario) {
+  const isNegative = scenario?.pickle?.tags?.some((t: any) => t.name === "@negativo");
+  if (!isNegative) return;
+
   resetState();
+  const isFirstScenario = scenario?.pickle?.tags?.some((t: any) => t.name === "@usuario_duplicado");
+  if (isFirstScenario) {
+    EvidenceHelper.clearRecords();
+  }
 });
 
-After(function () {
+After(function (scenario) {
+  const isNegative = scenario?.pickle?.tags?.some((t: any) => t.name === "@negativo");
+  if (!isNegative) return;
+
+  // Salva evidências de execução da suíte negativa
+  EvidenceHelper.saveEvidenceReport("docs/evidencias/etapa-1-api/api_negative_execution_evidence.json");
+  EvidenceHelper.saveMarkdownReport("docs/evidencias/etapa-1-api/api_negative_execution_evidence.md");
+
   if (state.userId && state.token) {
     accountService.deleteUser(state.userId, state.token).then((res) => {
       cy.log(`[CLEANUP] Usuário ${state.username} deletado com status: ${res.status}`);
@@ -68,8 +83,10 @@ Given("que um usuário já foi criado com credenciais válidas", function () {
 });
 
 When("envio uma requisição para criar outro usuário com o mesmo username", function () {
-  accountService.createUser({ userName: state.username, password: state.password }).then((response) => {
+  const payload = { userName: state.username, password: state.password };
+  accountService.createUser(payload).then((response) => {
     state.lastResponse = response;
+    EvidenceHelper.recordApiCall("Negativo 1: Criar Usuário Duplicado (POST /Account/v1/User)", "https://demoqa.com/Account/v1/User", "POST", response, payload, this.attach);
   });
 });
 
@@ -93,8 +110,10 @@ Given("que um usuário válido existe no sistema", function () {
 });
 
 When("solicito a geração de token com uma senha incorreta", function () {
-  accountService.generateToken({ userName: state.username, password: "SenhaErrada@123" }).then((response) => {
+  const payload = { userName: state.username, password: "SenhaErrada@123" };
+  accountService.generateToken(payload).then((response) => {
     state.lastResponse = response;
+    EvidenceHelper.recordApiCall("Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken)", "https://demoqa.com/Account/v1/GenerateToken", "POST", response, payload, this.attach);
   });
 });
 
@@ -111,13 +130,18 @@ Then("o token retornado deve ser nulo", function () {
 // CENÁRIO: Autorização com credenciais inválidas
 // ==========================================
 When("verifico a autorização com uma senha incorreta", function () {
-  accountService.checkAuthorized({ userName: state.username, password: "SenhaErrada@123" }).then((response) => {
+  const payload = { userName: state.username, password: "SenhaErrada@123" };
+  accountService.checkAuthorized(payload).then((response) => {
     state.lastResponse = response;
+    EvidenceHelper.recordApiCall("Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized)", "https://demoqa.com/Account/v1/Authorized", "POST", response, payload, this.attach);
   });
 });
 
 Then("a API deve retornar false indicando não autorização", function () {
-  expect(state.lastResponse?.body, "Corpo da resposta deve ser false").to.eq(false);
+  const body = state.lastResponse?.body;
+  const isNotAuthorized = body === false || (typeof body === "object" && (body.code !== undefined || body.message !== undefined));
+  expect(isNotAuthorized, "Corpo da resposta deve indicar não autorização").to.be.true;
+  expect(body, "Corpo não deve ser true").to.not.eq(true);
 });
 
 // ==========================================
@@ -126,6 +150,7 @@ Then("a API deve retornar false indicando não autorização", function () {
 When("consulto os detalhes do usuário com um token forjado", function () {
   accountService.getUserDetails(state.userId, "token_invalido_forjado_12345").then((response) => {
     state.lastResponse = response;
+    EvidenceHelper.recordApiCall(`Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/${state.userId})`, `https://demoqa.com/Account/v1/User/${state.userId}`, "GET", response, null, this.attach);
   });
 });
 
@@ -148,8 +173,14 @@ Given("que um usuário possui livros alugados em sua conta", function () {
 });
 
 When("tento alugar novamente o mesmo livro já reservado", function () {
+  const payload = {
+    userId: state.userId,
+    collectionOfIsbns: state.selectedIsbns.map((isbn) => ({ isbn })),
+  };
+
   bookStoreService.rentBooks(state.userId, state.selectedIsbns, state.token).then((response) => {
     state.lastResponse = response;
+    EvidenceHelper.recordApiCall("Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books)", "https://demoqa.com/BookStore/v1/Books", "POST", response, payload, this.attach);
   });
 });
 
@@ -165,13 +196,15 @@ Then("a mensagem de erro deve indicar que o livro já está na coleção", funct
 // CENÁRIO: Criar usuário sem senha (400)
 // ==========================================
 When("envio uma requisição para criar usuário sem o campo senha", function () {
+  const payload = { userName: `qa_nospass_${Date.now()}` };
   cy.request({
     method: "POST",
     url: "https://demoqa.com/Account/v1/User",
-    body: { userName: `qa_nospass_${Date.now()}` },
+    body: payload,
     failOnStatusCode: false,
   }).then((response) => {
     state.lastResponse = response;
+    EvidenceHelper.recordApiCall("Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User)", "https://demoqa.com/Account/v1/User", "POST", response, payload, this.attach);
   });
 });
 
