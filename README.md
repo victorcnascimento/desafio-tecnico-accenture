@@ -32,9 +32,11 @@ O projeto é organizado por etapas de entrega e responsabilidades bem definidas:
 │   │   └── cypress-ci.yml                   # Pipeline de CI/CD para GitHub Actions
 │   └── evidencias/                          # Evidências versionadas de execução
 │       ├── etapa-1-api/
-│       │   ├── api_execution_evidence.md    # Relatório detalhado com tabelas, status, payloads e tempos
-│       │   └── api_execution_evidence.json  # Resumo estruturado em JSON para auditoria
-│       └── etapa-2-frontend/                # Capturas de tela e evidências visuais de cada marco
+│       │   ├── api_execution_evidence.md    # Relatório detalhado dos testes positivos com tabelas, status e payloads
+│       │   ├── api_execution_evidence.json  # Resumo estruturado em JSON dos testes positivos
+│       │   ├── api_negative_execution_evidence.md   # Relatório detalhado dos testes negativos da API
+│       │   └── api_negative_execution_evidence.json # Resumo estruturado em JSON dos testes negativos da API
+│       └── etapa-2-frontend/                # Capturas de tela e evidências visuais (positivas e negativas)
 │           ├── CT01_practice_form_preenchido.png
 │           ├── CT01_practice_form_modal.png
 │           ├── CT02_browser_windows_sample.png
@@ -45,7 +47,13 @@ O projeto é organizado por etapas de entrega e responsabilidades bem definidas:
 │           ├── CT04_webtables_12_registros_deletados.png
 │           ├── CT05_progress_bar_parado_25.png
 │           ├── CT05_progress_bar_reset.png
-│           └── CT06_sortable_ordenado.png
+│           ├── CT06_sortable_ordenado.png
+│           ├── CT_NEG_practice_form_campos_obrigatorios.png
+│           ├── CT_NEG_practice_form_email_invalido.png
+│           ├── CT_NEG_practice_form_mobile_incompleto.png
+│           ├── CT_NEG_webtables_formulario_vazio.png
+│           ├── CT_NEG_webtables_busca_inexistente.png
+│           └── CT_NEG_webtables_email_invalido.png
 ├── cypress/
 │   ├── e2e/
 │   │   ├── features/                        # Arquivos de especificação BDD (.feature)
@@ -231,21 +239,48 @@ A **Etapa 2** contempla a automação completa dos elementos visuais e comportam
 
 Além dos cenários do caminho feliz, o projeto conta com **12 cenários negativos adicionais** cobrindo resiliência, validação de campos e tratamento de erros:
 
-### API (6 cenários negativos em `bookstore_account_negative.feature`):
-1. **Usuário duplicado:** Tentativa de criar conta com username já registrado (`406 Not Acceptable`).
-2. **Senha incorreta:** Geração de token com credenciais inválidas (`status: "Failed"`, token nulo).
-3. **Autorização negada:** Verificação de autorização com senha errada (`false`).
-4. **Token forjado:** Acesso aos dados do usuário com token adulterado (`401 Unauthorized`).
-5. **Livro duplicado:** Tentativa de alugar o mesmo livro duas vezes (`400 Bad Request`).
-6. **Payload incompleto:** Criação de usuário sem campo de senha (`400 Bad Request`).
+### API (6 cenários negativos em [`bookstore_account_negative.feature`](cypress/e2e/features/etapa-1-api/bookstore_account_negative.feature)):
 
-### Frontend (6 cenários negativos em `practice_form_negative.feature` e `web_tables_negative.feature`):
-1. **Campos obrigatórios:** Submissão do Practice Form sem preenchimento (`.was-validated`, bordas vermelhas).
-2. **Email inválido (Form):** Submissão com formato de email incorreto (`validity.valid === false`).
-3. **Telefone curto:** Submissão com número menor que 10 dígitos.
-4. **Registro vazio (Tables):** Submissão de novo colaborador sem dados.
-5. **Busca sem retorno:** Pesquisa por termo inexistente com validação da mensagem *"No rows found"*.
-6. **Email inválido (Tables):** Tentativa de inclusão de colaborador com email sem formato válido.
+| # | Cenário BDD Negativo | Endpoint / Método | Status Esperado | Status Obtido | Evidência |
+|---|---|---|:---:|:---:|---|
+| 1 | **Usuário duplicado** | `POST /Account/v1/User` | `406 Not Acceptable` | `406` | [`api_negative_execution_evidence.md`](docs/evidencias/etapa-1-api/api_negative_execution_evidence.md#1-negativo-1-criar-usuário-duplicado-post-accountv1user) |
+| 2 | **Senha incorreta no Token** | `POST /Account/v1/GenerateToken` | `200 OK (Failed)` | `200 (token: null)` | [`api_negative_execution_evidence.md`](docs/evidencias/etapa-1-api/api_negative_execution_evidence.md#2-negativo-2-gerar-token-com-senha-inválida-post-accountv1generatetoken) |
+| 3 | **Autorização negada** | `POST /Account/v1/Authorized` | `404 / false` | `404 / false` | [`api_negative_execution_evidence.md`](docs/evidencias/etapa-1-api/api_negative_execution_evidence.md#3-negativo-3-verificar-autorização-com-senha-inválida-post-accountv1authorized) |
+| 4 | **Token forjado / inválido** | `GET /Account/v1/User/{userId}` | `401 Unauthorized` | `401` | [`api_negative_execution_evidence.md`](docs/evidencias/etapa-1-api/api_negative_execution_evidence.md#4-negativo-4-consultar-usuário-com-token-forjado-get-accountv1user) |
+| 5 | **Aluguel de livro duplicado** | `POST /BookStore/v1/Books` | `400 Bad Request` | `400` | [`api_negative_execution_evidence.md`](docs/evidencias/etapa-1-api/api_negative_execution_evidence.md#5-negativo-5-alugar-livro-já-presente-na-coleção-post-bookstorev1books) |
+| 6 | **Payload sem senha** | `POST /Account/v1/User` | `400 Bad Request` | `400` | [`api_negative_execution_evidence.md`](docs/evidencias/etapa-1-api/api_negative_execution_evidence.md#6-negativo-6-criar-usuário-sem-senha-post-accountv1user) |
+
+### Frontend (6 cenários negativos em [`practice_form_negative.feature`](cypress/e2e/features/etapa-2-frontend/practice_form_negative.feature) e [`web_tables_negative.feature`](cypress/e2e/features/etapa-2-frontend/web_tables_negative.feature)):
+
+| # | Funcionalidade | Cenário BDD Negativo | Validação Realizada | Evidência Associada |
+|---|---|---|---|---|
+| 1 | **Practice Form** | Submeter sem campos obrigatórios | Pseudo-classe `:invalid`, classe `.was-validated` e modal não aberto | [`CT_NEG_practice_form_campos_obrigatorios.png`](docs/evidencias/etapa-2-frontend/CT_NEG_practice_form_campos_obrigatorios.png) |
+| 2 | **Practice Form** | Submeter com email inválido | Restrição HTML5 (`validity.valid === false`) e modal não aberto | [`CT_NEG_practice_form_email_invalido.png`](docs/evidencias/etapa-2-frontend/CT_NEG_practice_form_email_invalido.png) |
+| 3 | **Practice Form** | Submeter sem celular obrigatório | Borda com destaque visual de erro e modal não aberto | [`CT_NEG_practice_form_mobile_incompleto.png`](docs/evidencias/etapa-2-frontend/CT_NEG_practice_form_mobile_incompleto.png) |
+| 4 | **Web Tables** | Submeter formulário de registro vazio | Modal de cadastro permanece aberto com `.was-validated` nos campos | [`CT_NEG_webtables_formulario_vazio.png`](docs/evidencias/etapa-2-frontend/CT_NEG_webtables_formulario_vazio.png) |
+| 5 | **Web Tables** | Buscar registro inexistente | Tabela exibe estado sem correspondência | [`CT_NEG_webtables_busca_inexistente.png`](docs/evidencias/etapa-2-frontend/CT_NEG_webtables_busca_inexistente.png) |
+| 6 | **Web Tables** | Inserir colaborador com email inválido | Modal permanece aberto e campo email reportado inválido pelo browser | [`CT_NEG_webtables_email_invalido.png`](docs/evidencias/etapa-2-frontend/CT_NEG_webtables_email_invalido.png) |
+
+---
+
+## 📑 Relatórios de Execução e Dashboards
+
+O projeto disponibiliza três níveis de acompanhamento das execuções:
+
+1. **Dashboard Visual em HTML (Cucumber HTML Reporter):**
+   * Gera gráficos de assertividade, tempo de resposta por funcionalidade, status e detalhes de cada step BDD.
+   * Local do relatório consolidado: `cypress/reports/html-report/index.html`
+   * Para gerar o dashboard sob demanda:
+     ```bash
+     npm run report
+     ```
+
+2. **Relatórios Estruturados em Markdown e JSON:**
+   * **API Positiva:** [`docs/evidencias/etapa-1-api/api_execution_evidence.md`](docs/evidencias/etapa-1-api/api_execution_evidence.md) e [`api_execution_evidence.json`](docs/evidencias/etapa-1-api/api_execution_evidence.json)
+   * **API Negativa:** [`docs/evidencias/etapa-1-api/api_negative_execution_evidence.md`](docs/evidencias/etapa-1-api/api_negative_execution_evidence.md) e [`api_negative_execution_evidence.json`](docs/evidencias/etapa-1-api/api_negative_execution_evidence.json)
+
+3. **Capturas de Tela (Screenshots):**
+   * Registros automáticos de cada marco em [`docs/evidencias/etapa-2-frontend/`](docs/evidencias/etapa-2-frontend/).
 
 ---
 
@@ -253,11 +288,11 @@ Além dos cenários do caminho feliz, o projeto conta com **12 cenários negativ
 
 * **Total de Specs:** 9
 * **Total de Cenários BDD:** 24 (12 positivos + 12 negativos)
-  * **API:** 12 cenários (6 positivos + 6 negativos)
-  * **Frontend:** 12 cenários (6 positivos + 6 negativos)
-* **Padrões de Arquitetura:** BasePage + Page Object + Service Object
+  * **API:** 12 cenários (6 positivos + 6 negativos) — 100% Passing
+  * **Frontend:** 12 cenários (6 positivos + 6 negativos) — 100% Passing
+* **Padrões de Arquitetura:** BasePage + Page Object (POM) + Service Object + Custom Polyfills
 * **CI/CD:** Pipeline configurada para o GitHub Actions em [`docs/ci/cypress-ci.yml`](docs/ci/cypress-ci.yml)
-* **Taxa de Sucesso:** 100%
+* **Taxa de Sucesso:** 100% (24/24 cenários)
 
 ---
 
