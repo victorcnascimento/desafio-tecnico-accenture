@@ -43,6 +43,7 @@ function createUserAndGetToken(): Cypress.Chainable<void> {
     state.userId = res.body.userID;
     return accountService.generateToken({ userName: state.username, password: state.password }).then((tokenRes) => {
       state.token = tokenRes.body.token;
+      return cy.wrap(undefined as void);
     });
   });
 }
@@ -86,7 +87,7 @@ When("envio uma requisição para criar outro usuário com o mesmo username", fu
   const payload = { userName: state.username, password: state.password };
   accountService.createUser(payload).then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall("Negativo 1: Criar Usuário Duplicado (POST /Account/v1/User)", "https://demoqa.com/Account/v1/User", "POST", response, payload, this.attach);
+    EvidenceHelper.recordApiCall("Negativo 1: Criar Usuário Duplicado (POST /Account/v1/User)", "https://demoqa.com/Account/v1/User", "POST", response, payload, this.attach, 406);
   });
 });
 
@@ -113,7 +114,7 @@ When("solicito a geração de token com uma senha incorreta", function () {
   const payload = { userName: state.username, password: "SenhaErrada@123" };
   accountService.generateToken(payload).then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall("Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken)", "https://demoqa.com/Account/v1/GenerateToken", "POST", response, payload, this.attach);
+    EvidenceHelper.recordApiCall("Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken)", "https://demoqa.com/Account/v1/GenerateToken", "POST", response, payload, this.attach, 200);
   });
 });
 
@@ -133,7 +134,7 @@ When("verifico a autorização com uma senha incorreta", function () {
   const payload = { userName: state.username, password: "SenhaErrada@123" };
   accountService.checkAuthorized(payload).then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall("Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized)", "https://demoqa.com/Account/v1/Authorized", "POST", response, payload, this.attach);
+    EvidenceHelper.recordApiCall("Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized)", "https://demoqa.com/Account/v1/Authorized", "POST", response, payload, this.attach, response.status);
   });
 });
 
@@ -150,7 +151,7 @@ Then("a API deve retornar false indicando não autorização", function () {
 When("consulto os detalhes do usuário com um token forjado", function () {
   accountService.getUserDetails(state.userId, "token_invalido_forjado_12345").then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall(`Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/${state.userId})`, `https://demoqa.com/Account/v1/User/${state.userId}`, "GET", response, null, this.attach);
+    EvidenceHelper.recordApiCall(`Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/${state.userId})`, `https://demoqa.com/Account/v1/User/${state.userId}`, "GET", response, null, this.attach, 401);
   });
 });
 
@@ -180,7 +181,7 @@ When("tento alugar novamente o mesmo livro já reservado", function () {
 
   bookStoreService.rentBooks(state.userId, state.selectedIsbns, state.token).then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall("Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books)", "https://demoqa.com/BookStore/v1/Books", "POST", response, payload, this.attach);
+    EvidenceHelper.recordApiCall("Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books)", "https://demoqa.com/BookStore/v1/Books", "POST", response, payload, this.attach, 400);
   });
 });
 
@@ -204,7 +205,7 @@ When("envio uma requisição para criar usuário sem o campo senha", function ()
     failOnStatusCode: false,
   }).then((response) => {
     state.lastResponse = response;
-    EvidenceHelper.recordApiCall("Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User)", "https://demoqa.com/Account/v1/User", "POST", response, payload, this.attach);
+    EvidenceHelper.recordApiCall("Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User)", "https://demoqa.com/Account/v1/User", "POST", response, payload, this.attach, 400);
   });
 });
 

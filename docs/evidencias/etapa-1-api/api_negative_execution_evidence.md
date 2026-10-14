@@ -1,31 +1,32 @@
 # Relatório de Evidências - Testes de API DemoQA
 
-**Data/Hora da Execução:** 14/10/2026, 15:04:47
+**Data/Hora da Execução:** 14/10/2026, 15:48:58
 **Total de Requisições:** 6
 
 | Passo | Método / Endpoint | Status | Duração | Resultado |
 |---|---|---|---|---|
-| Negativo 1: Criar Usuário Duplicado (POST /Account/v1/User) | `https://demoqa.com/Account/v1/User` | **406** | 785ms | FALHOU |
-| Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken) | `https://demoqa.com/Account/v1/GenerateToken` | **200** | 1752ms | PASSOU (2xx) |
-| Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized) | `https://demoqa.com/Account/v1/Authorized` | **404** | 943ms | FALHOU |
-| Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/3cbfb7f2-190b-4f23-af34-7b007ee4cbf4) | `https://demoqa.com/Account/v1/User/3cbfb7f2-190b-4f23-af34-7b007ee4cbf4` | **401** | 1222ms | FALHOU |
-| Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books) | `https://demoqa.com/BookStore/v1/Books` | **400** | 305ms | FALHOU |
-| Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User) | `https://demoqa.com/Account/v1/User` | **400** | 210ms | FALHOU |
+| Negativo 1: Criar Usuário Duplicado (POST /Account/v1/User) | `https://demoqa.com/Account/v1/User` | **406** | 440ms | PASSOU (406) |
+| Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken) | `https://demoqa.com/Account/v1/GenerateToken` | **200** | 1649ms | PASSOU (200) |
+| Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized) | `https://demoqa.com/Account/v1/Authorized` | **404** | 958ms | PASSOU (404) |
+| Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/bb42de00-9eef-44fc-bdc2-2ae139898e57) | `https://demoqa.com/Account/v1/User/bb42de00-9eef-44fc-bdc2-2ae139898e57` | **401** | 1197ms | PASSOU (401) |
+| Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books) | `https://demoqa.com/BookStore/v1/Books` | **400** | 303ms | PASSOU (400) |
+| Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User) | `https://demoqa.com/Account/v1/User` | **400** | 339ms | PASSOU (400) |
 
 ## Detalhes das Requisições e Respostas
 
 ### 1. Negativo 1: Criar Usuário Duplicado (POST /Account/v1/User)
 - **URL:** `https://demoqa.com/Account/v1/User`
 - **Status Code:** `406`
-- **Duração:** `785ms`
-- **Request Payload:**
+- **Duração:** `440ms`
+- **Resultado:** `PASSOU (406)`
+- **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_neg_QpX2k0_1792001062162",
-  "password": "QA@Passw0rd!2162"
+  "userName": "qa_neg_bi1SxH_1792003711134",
+  "password": "********"
 }
 ```
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
   "code": "1204",
@@ -36,15 +37,16 @@
 ### 2. Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken)
 - **URL:** `https://demoqa.com/Account/v1/GenerateToken`
 - **Status Code:** `200`
-- **Duração:** `1752ms`
-- **Request Payload:**
+- **Duração:** `1649ms`
+- **Resultado:** `PASSOU (200)`
+- **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_neg_ZLmrzt_1792001067335",
-  "password": "SenhaErrada@123"
+  "userName": "qa_neg_ywJs3M_1792003716358",
+  "password": "********"
 }
 ```
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
   "token": null,
@@ -57,15 +59,16 @@
 ### 3. Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized)
 - **URL:** `https://demoqa.com/Account/v1/Authorized`
 - **Status Code:** `404`
-- **Duração:** `943ms`
-- **Request Payload:**
+- **Duração:** `958ms`
+- **Resultado:** `PASSOU (404)`
+- **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_neg_Qpa8e8_1792001073600",
-  "password": "SenhaErrada@123"
+  "userName": "qa_neg_v19pRM_1792003723474",
+  "password": "********"
 }
 ```
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
   "code": "1207",
@@ -73,12 +76,13 @@
 }
 ```
 
-### 4. Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/3cbfb7f2-190b-4f23-af34-7b007ee4cbf4)
-- **URL:** `https://demoqa.com/Account/v1/User/3cbfb7f2-190b-4f23-af34-7b007ee4cbf4`
+### 4. Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/bb42de00-9eef-44fc-bdc2-2ae139898e57)
+- **URL:** `https://demoqa.com/Account/v1/User/bb42de00-9eef-44fc-bdc2-2ae139898e57`
 - **Status Code:** `401`
-- **Duração:** `1222ms`
+- **Duração:** `1197ms`
+- **Resultado:** `PASSOU (401)`
 - **Request Payload:** *(Sem payload no corpo)*
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
   "code": "1200",
@@ -89,11 +93,12 @@
 ### 5. Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books)
 - **URL:** `https://demoqa.com/BookStore/v1/Books`
 - **Status Code:** `400`
-- **Duração:** `305ms`
-- **Request Payload:**
+- **Duração:** `303ms`
+- **Resultado:** `PASSOU (400)`
+- **Request Payload (Sanitizado):**
 ```json
 {
-  "userId": "a4c7e606-8c88-4d0a-9866-54128fd45a72",
+  "userId": "d6701842-5385-4fdb-a2f5-da41b0c4681a",
   "collectionOfIsbns": [
     {
       "isbn": "9781449325862"
@@ -101,7 +106,7 @@
   ]
 }
 ```
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
   "code": "1210",
@@ -112,14 +117,15 @@
 ### 6. Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User)
 - **URL:** `https://demoqa.com/Account/v1/User`
 - **Status Code:** `400`
-- **Duração:** `210ms`
-- **Request Payload:**
+- **Duração:** `339ms`
+- **Resultado:** `PASSOU (400)`
+- **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_nospass_1792001087646"
+  "userName": "qa_nospass_1792003738092"
 }
 ```
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
   "code": "1200",

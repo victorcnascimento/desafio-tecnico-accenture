@@ -189,6 +189,7 @@ Para dispor os elementos em ordem crescente
 **@frontend @sortable @draganddrop @etapa2 @CA07**  
 **Cenário: Reordenar elementos da lista em ordem crescente através de drag and drop**  
 * **Dado** que o usuário acessa o submenu "Sortable" na seção Interactions  
+* **E** que os itens da lista estão fora da ordem crescente  
 * **Quando** reordena os elementos através do método de arrastar e soltar  
 * **Então** os itens devem estar dispostos na ordem sequencial exata de "One" a "Six"  
 

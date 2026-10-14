@@ -8,11 +8,16 @@ Given("que o usuário acessa o submenu {string} na seção Interactions", functi
   sortablePage.navigateToSortable();
 });
 
+Given("que os itens da lista estão fora da ordem crescente", function () {
+  sortablePage.shuffleItems();
+  cy.screenshot("CT06_sortable_embaralhado", { capture: "viewport" });
+});
+
 When("reordena os elementos através do método de arrastar e soltar", function () {
   sortablePage.sortItemsAscending();
 });
 
 Then("os itens devem estar dispostos na ordem sequencial exata de {string} a {string}", function (fromItem: string, toItem: string) {
-  sortablePage.validateAscendingOrder();
+  sortablePage.validateAscendingOrder(fromItem, toItem);
   cy.screenshot("CT06_sortable_ordenado", { capture: "viewport" });
 });

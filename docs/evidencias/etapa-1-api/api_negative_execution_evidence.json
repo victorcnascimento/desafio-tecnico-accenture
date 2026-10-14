@@ -4,25 +4,29 @@
     "endpoint": "https://demoqa.com/Account/v1/User",
     "method": "POST",
     "status": 406,
+    "expectedStatus": 406,
+    "result": "PASSOU (406)",
     "requestPayload": {
-      "userName": "qa_neg_QpX2k0_1792001062162",
-      "password": "QA@Passw0rd!2162"
+      "userName": "qa_neg_bi1SxH_1792003711134",
+      "password": "********"
     },
     "responseBody": {
       "code": "1204",
       "message": "User exists!"
     },
-    "durationMs": 785,
-    "timestamp": "2026-10-14T18:04:25.576Z"
+    "durationMs": 440,
+    "timestamp": "2026-10-14T18:48:34.351Z"
   },
   {
     "step": "Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken)",
     "endpoint": "https://demoqa.com/Account/v1/GenerateToken",
     "method": "POST",
     "status": 200,
+    "expectedStatus": 200,
+    "result": "PASSOU (200)",
     "requestPayload": {
-      "userName": "qa_neg_ZLmrzt_1792001067335",
-      "password": "SenhaErrada@123"
+      "userName": "qa_neg_ywJs3M_1792003716358",
+      "password": "********"
     },
     "responseBody": {
       "token": null,
@@ -30,45 +34,51 @@
       "status": "Failed",
       "result": "User authorization failed."
     },
-    "durationMs": 1752,
-    "timestamp": "2026-10-14T18:04:31.961Z"
+    "durationMs": 1649,
+    "timestamp": "2026-10-14T18:48:41.478Z"
   },
   {
     "step": "Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized)",
     "endpoint": "https://demoqa.com/Account/v1/Authorized",
     "method": "POST",
     "status": 404,
+    "expectedStatus": 404,
+    "result": "PASSOU (404)",
     "requestPayload": {
-      "userName": "qa_neg_Qpa8e8_1792001073600",
-      "password": "SenhaErrada@123"
+      "userName": "qa_neg_v19pRM_1792003723474",
+      "password": "********"
     },
     "responseBody": {
       "code": "1207",
       "message": "User not found!"
     },
-    "durationMs": 943,
-    "timestamp": "2026-10-14T18:04:37.056Z"
+    "durationMs": 958,
+    "timestamp": "2026-10-14T18:48:47.063Z"
   },
   {
-    "step": "Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/3cbfb7f2-190b-4f23-af34-7b007ee4cbf4)",
-    "endpoint": "https://demoqa.com/Account/v1/User/3cbfb7f2-190b-4f23-af34-7b007ee4cbf4",
+    "step": "Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/bb42de00-9eef-44fc-bdc2-2ae139898e57)",
+    "endpoint": "https://demoqa.com/Account/v1/User/bb42de00-9eef-44fc-bdc2-2ae139898e57",
     "method": "GET",
     "status": 401,
+    "expectedStatus": 401,
+    "result": "PASSOU (401)",
     "requestPayload": null,
     "responseBody": {
       "code": "1200",
       "message": "User not authorized!"
     },
-    "durationMs": 1222,
-    "timestamp": "2026-10-14T18:04:42.376Z"
+    "durationMs": 1197,
+    "timestamp": "2026-10-14T18:48:52.741Z"
   },
   {
     "step": "Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books)",
     "endpoint": "https://demoqa.com/BookStore/v1/Books",
     "method": "POST",
     "status": 400,
+    "expectedStatus": 400,
+    "result": "PASSOU (400)",
     "requestPayload": {
-      "userId": "a4c7e606-8c88-4d0a-9866-54128fd45a72",
+      "userId": "d6701842-5385-4fdb-a2f5-da41b0c4681a",
       "collectionOfIsbns": [
         {
           "isbn": "9781449325862"
@@ -79,22 +89,24 @@
       "code": "1210",
       "message": "ISBN already present in the User's Collection!"
     },
-    "durationMs": 305,
-    "timestamp": "2026-10-14T18:04:46.778Z"
+    "durationMs": 303,
+    "timestamp": "2026-10-14T18:48:57.186Z"
   },
   {
     "step": "Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User)",
     "endpoint": "https://demoqa.com/Account/v1/User",
     "method": "POST",
     "status": 400,
+    "expectedStatus": 400,
+    "result": "PASSOU (400)",
     "requestPayload": {
-      "userName": "qa_nospass_1792001087646"
+      "userName": "qa_nospass_1792003738092"
     },
     "responseBody": {
       "code": "1200",
       "message": "UserName and Password required."
     },
-    "durationMs": 210,
-    "timestamp": "2026-10-14T18:04:47.863Z"
+    "durationMs": 339,
+    "timestamp": "2026-10-14T18:48:58.438Z"
   }
 ]

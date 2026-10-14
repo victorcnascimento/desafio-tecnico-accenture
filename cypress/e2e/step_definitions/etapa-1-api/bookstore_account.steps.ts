@@ -29,7 +29,7 @@ const state: TestState = {
   userDetails: null,
 };
 
-// Funções auxiliares para garantir pré-condições quando executado isoladamente
+// Funções auxiliares para garantir pré-condições de forma isolada e resiliente
 function ensureUserCreated(): Cypress.Chainable<void> {
   if (state.userId && state.username) {
     return cy.wrap(undefined as void);
@@ -41,6 +41,7 @@ function ensureUserCreated(): Cypress.Chainable<void> {
   const payload = { userName: state.username, password: state.password };
   return accountService.createUser(payload).then((res) => {
     state.userId = res.body.userID;
+    return cy.wrap(undefined as void);
   });
 }
 
@@ -52,6 +53,7 @@ function ensureTokenGenerated(): Cypress.Chainable<void> {
     const payload = { userName: state.username, password: state.password };
     return accountService.generateToken(payload).then((res) => {
       state.token = res.body.token;
+      return cy.wrap(undefined as void);
     });
   });
 }
@@ -63,6 +65,7 @@ function ensureBooksSelected(): Cypress.Chainable<void> {
   return bookStoreService.getBooks().then((res) => {
     state.catalogBooks = res.body.books;
     state.selectedIsbns = res.body.books.slice(0, 2).map((b: any) => b.isbn);
+    return cy.wrap(undefined as void);
   });
 }
 
@@ -77,29 +80,49 @@ function ensureBooksRented(): Cypress.Chainable<void> {
 }
 
 Before(function (scenario) {
+  const isNegative = scenario?.pickle?.tags?.some((t: any) => t.name === "@negativo");
+  if (isNegative) return;
+
   const isFirstStep = scenario?.pickle?.name?.includes("1.") || scenario?.pickle?.tags?.some((t: any) => t.name === "@passo1");
   if (isFirstStep) {
     EvidenceHelper.clearRecords();
   }
+
+  // Limpa o estado local a cada cenário para garantir total independência e segurança contra falhas e retries
+  state.username = "";
+  state.password = "";
+  state.userId = "";
+  state.token = "";
+  state.catalogBooks = [];
+  state.selectedIsbns = [];
+  state.lastResponse = null;
+  state.userDetails = null;
 });
 
 After(function (scenario) {
   const isNegative = scenario?.pickle?.tags?.some((t: any) => t.name === "@negativo");
   if (isNegative) return;
 
+  // Cleanup: deletar qualquer usuário criado no escopo do cenário (mesmo se falhar ou abortar antes do passo 6)
+  if (state.userId && state.token) {
+    accountService.deleteUser(state.userId, state.token).then((res) => {
+      cy.log(`[CLEANUP] Usuário ${state.username} (${state.userId}) deletado com status: ${res.status}`);
+    });
+  } else if (state.userId && state.password) {
+    accountService.generateToken({ userName: state.username, password: state.password }).then((tRes) => {
+      if (tRes.body?.token) {
+        accountService.deleteUser(state.userId, tRes.body.token).then((res) => {
+          cy.log(`[CLEANUP] Usuário ${state.username} (${state.userId}) deletado com status: ${res.status}`);
+        });
+      }
+    });
+  }
+
   // Salvar evidências consolidadas
   EvidenceHelper.saveEvidenceReport("cypress/reports/evidence/api_execution_evidence.json");
   EvidenceHelper.saveMarkdownReport("cypress/reports/evidence/api_execution_evidence.md");
   EvidenceHelper.saveEvidenceReport("docs/evidencias/etapa-1-api/api_execution_evidence.json");
   EvidenceHelper.saveMarkdownReport("docs/evidencias/etapa-1-api/api_execution_evidence.md");
-
-  // Cleanup: deletar o usuário criado apenas ao concluir o último passo da esteira
-  const isFinalStep = scenario?.pickle?.name?.includes("6.") || scenario?.pickle?.tags?.some((t: any) => t.name === "@passo6" || t.name === "@detalhes_usuario");
-  if (isFinalStep && state.userId && state.token) {
-    accountService.deleteUser(state.userId, state.token).then((res) => {
-      cy.log(`[CLEANUP] Usuário ${state.username} deletado com status: ${res.status}`);
-    });
-  }
 });
 
 // ==========================================

@@ -39,7 +39,13 @@ When("realiza uma busca por um valor inexistente {string}", function (searchTerm
 });
 
 Then("a tabela deve exibir a mensagem indicando que não há registros encontrados", function () {
-  cy.get("table tbody").should("not.contain.text", "registro_que_nao_existe_xyz");
+  // Valida que a tabela ficou com 0 linhas de registros e nenhum botão de ação
+  cy.get("table tbody").then(($tbody) => {
+    const dataRows = $tbody.find("tr").filter((_, el) => el.innerText.trim().length > 0);
+    expect(dataRows.length, "Quantidade de linhas de dados com busca inexistente").to.eq(0);
+  });
+  cy.get("[id^='delete-record-']").should("not.exist");
+  cy.get("body").should("contain.text", "Page 1 of 0");
   cy.screenshot("CT_NEG_webtables_busca_inexistente");
   webTablesPage.clearSearch();
 });

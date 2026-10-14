@@ -112,10 +112,22 @@ When("o usuário realiza a exclusão de todos os 12 registros adicionados", func
 
 Then("apenas os registros padrão iniciais devem permanecer visíveis", function () {
   webTablesPage.clearSearch();
+  webTablesPage.setPageSize("20 rows");
+
+  // 1. Confirma que a tabela contém EXATAMENTE 3 botões de delete (apenas os 3 registros padrão)
+  cy.get("[id^='delete-record-'], [title='Delete']").should("have.length", 3);
+
+  // 2. Confirma explicitamente que CADA UM dos 12 registros criados foi removido
+  expect(bonusRecords.length, "Deve haver lista de 12 registros dinâmicos").to.eq(12);
+  bonusRecords.forEach((record) => {
+    cy.get("table tbody").should("not.contain.text", record.email);
+    cy.get("table tbody").should("not.contain.text", record.firstName);
+  });
+
+  // 3. Confirma que os registros padrão do DemoQA continuam intactos
   webTablesPage.setPageSize("10 rows");
-  // Registros padrão do DemoQA
   cy.get("table tbody").should("contain.text", "Cierra");
   cy.get("table tbody").should("contain.text", "Alden");
   cy.get("table tbody").should("contain.text", "Kierra");
-  cy.log("Tabela retornada com sucesso ao estado inicial.");
+  cy.log("Exclusão de todos os 12 registros dinâmicos confirmada com sucesso.");
 });

@@ -1,35 +1,36 @@
 # Relatório de Evidências - Testes de API DemoQA
 
-**Data/Hora da Execução:** 14/10/2026, 15:04:19
+**Data/Hora da Execução:** 14/10/2026, 15:48:28
 **Total de Requisições:** 6
 
 | Passo | Método / Endpoint | Status | Duração | Resultado |
 |---|---|---|---|---|
-| 1. Criar Usuário (POST /Account/v1/User) | `https://demoqa.com/Account/v1/User` | **201** | 1906ms | PASSOU (2xx) |
-| 2. Gerar Token (POST /Account/v1/GenerateToken) | `https://demoqa.com/Account/v1/GenerateToken` | **200** | 1440ms | PASSOU (2xx) |
-| 3. Verificar Autorização (POST /Account/v1/Authorized) | `https://demoqa.com/Account/v1/Authorized` | **200** | 882ms | PASSOU (2xx) |
-| 4. Listar Livros Disponíveis (GET /BookStore/v1/Books) | `https://demoqa.com/BookStore/v1/Books` | **200** | 215ms | PASSOU (2xx) |
-| 5. Alugar Dois Livros (POST /BookStore/v1/Books) | `https://demoqa.com/BookStore/v1/Books` | **201** | 436ms | PASSOU (2xx) |
-| 6. Consultar Detalhes do Usuário (GET /Account/v1/User/dfec166f-9f37-436a-8f83-1d86d5c63959) | `https://demoqa.com/Account/v1/User/dfec166f-9f37-436a-8f83-1d86d5c63959` | **200** | 417ms | PASSOU (2xx) |
+| 1. Criar Usuário (POST /Account/v1/User) | `https://demoqa.com/Account/v1/User` | **201** | 1789ms | PASSOU (2xx) |
+| 2. Gerar Token (POST /Account/v1/GenerateToken) | `https://demoqa.com/Account/v1/GenerateToken` | **200** | 1282ms | PASSOU (2xx) |
+| 3. Verificar Autorização (POST /Account/v1/Authorized) | `https://demoqa.com/Account/v1/Authorized` | **200** | 334ms | PASSOU (2xx) |
+| 4. Listar Livros Disponíveis (GET /BookStore/v1/Books) | `https://demoqa.com/BookStore/v1/Books` | **200** | 213ms | PASSOU (2xx) |
+| 5. Alugar Dois Livros (POST /BookStore/v1/Books) | `https://demoqa.com/BookStore/v1/Books` | **201** | 449ms | PASSOU (2xx) |
+| 6. Consultar Detalhes do Usuário (GET /Account/v1/User/b56896dc-6d66-4eb9-add6-b43843db2ead) | `https://demoqa.com/Account/v1/User/b56896dc-6d66-4eb9-add6-b43843db2ead` | **200** | 365ms | PASSOU (2xx) |
 
 ## Detalhes das Requisições e Respostas
 
 ### 1. 1. Criar Usuário (POST /Account/v1/User)
 - **URL:** `https://demoqa.com/Account/v1/User`
 - **Status Code:** `201`
-- **Duração:** `1906ms`
-- **Request Payload:**
+- **Duração:** `1789ms`
+- **Resultado:** `PASSOU (2xx)`
+- **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_user_8HvvrZ_1792001052123",
-  "password": "QA@Passw0rd!2123"
+  "userName": "qa_user_AiJaec_1792003686032",
+  "password": "********"
 }
 ```
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
-  "userID": "dfec166f-9f37-436a-8f83-1d86d5c63959",
-  "username": "qa_user_8HvvrZ_1792001052123",
+  "userID": "99bdd25c-8545-4a08-b171-694f26ad1c32",
+  "username": "qa_user_AiJaec_1792003686032",
   "books": []
 }
 ```
@@ -37,19 +38,20 @@
 ### 2. 2. Gerar Token (POST /Account/v1/GenerateToken)
 - **URL:** `https://demoqa.com/Account/v1/GenerateToken`
 - **Status Code:** `200`
-- **Duração:** `1440ms`
-- **Request Payload:**
+- **Duração:** `1282ms`
+- **Resultado:** `PASSOU (2xx)`
+- **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_user_8HvvrZ_1792001052123",
-  "password": "QA@Passw0rd!2123"
+  "userName": "qa_user_m2Ri5f_1792003691167",
+  "password": "********"
 }
 ```
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InFhX3VzZXJfOEh2dnJaXzE3OTIwMDEwNTIxMjMiLCJwYXNzd29yZCI6IlFBQFBhc3N3MHJkITIxMjMiLCJpYXQiOjE3OTIwMDEwNTV9.O0QxTe91marZh5Y3ZpIkl3lr9_0_sdshGW7k6H0J4bU",
-  "expires": "2026-10-21T18:04:15.572Z",
+  "token": "eyJhbG...[MASKED]...3WlQ",
+  "expires": "2026-10-21T18:48:13.539Z",
   "status": "Success",
   "result": "User authorized successfully."
 }
@@ -58,15 +60,16 @@
 ### 3. 3. Verificar Autorização (POST /Account/v1/Authorized)
 - **URL:** `https://demoqa.com/Account/v1/Authorized`
 - **Status Code:** `200`
-- **Duração:** `882ms`
-- **Request Payload:**
+- **Duração:** `334ms`
+- **Resultado:** `PASSOU (2xx)`
+- **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_user_8HvvrZ_1792001052123",
-  "password": "QA@Passw0rd!2123"
+  "userName": "qa_user_ruaY5d_1792003695607",
+  "password": "********"
 }
 ```
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 true
 ```
@@ -74,9 +77,10 @@ true
 ### 4. 4. Listar Livros Disponíveis (GET /BookStore/v1/Books)
 - **URL:** `https://demoqa.com/BookStore/v1/Books`
 - **Status Code:** `200`
-- **Duração:** `215ms`
+- **Duração:** `213ms`
+- **Resultado:** `PASSOU (2xx)`
 - **Request Payload:** *(Sem payload no corpo)*
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
   "books": [
@@ -175,11 +179,12 @@ true
 ### 5. 5. Alugar Dois Livros (POST /BookStore/v1/Books)
 - **URL:** `https://demoqa.com/BookStore/v1/Books`
 - **Status Code:** `201`
-- **Duração:** `436ms`
-- **Request Payload:**
+- **Duração:** `449ms`
+- **Resultado:** `PASSOU (2xx)`
+- **Request Payload (Sanitizado):**
 ```json
 {
-  "userId": "dfec166f-9f37-436a-8f83-1d86d5c63959",
+  "userId": "9e1316e5-9628-45c9-b718-0e164ea95076",
   "collectionOfIsbns": [
     {
       "isbn": "9781449325862"
@@ -190,7 +195,7 @@ true
   ]
 }
 ```
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
   "books": [
@@ -204,16 +209,17 @@ true
 }
 ```
 
-### 6. 6. Consultar Detalhes do Usuário (GET /Account/v1/User/dfec166f-9f37-436a-8f83-1d86d5c63959)
-- **URL:** `https://demoqa.com/Account/v1/User/dfec166f-9f37-436a-8f83-1d86d5c63959`
+### 6. 6. Consultar Detalhes do Usuário (GET /Account/v1/User/b56896dc-6d66-4eb9-add6-b43843db2ead)
+- **URL:** `https://demoqa.com/Account/v1/User/b56896dc-6d66-4eb9-add6-b43843db2ead`
 - **Status Code:** `200`
-- **Duração:** `417ms`
+- **Duração:** `365ms`
+- **Resultado:** `PASSOU (2xx)`
 - **Request Payload:** *(Sem payload no corpo)*
-- **Response Body:**
+- **Response Body (Sanitizado):**
 ```json
 {
-  "userId": "dfec166f-9f37-436a-8f83-1d86d5c63959",
-  "username": "qa_user_8HvvrZ_1792001052123",
+  "userId": "b56896dc-6d66-4eb9-add6-b43843db2ead",
+  "username": "qa_user_IvdVFs_1792003705376",
   "books": [
     {
       "isbn": "9781449325862",

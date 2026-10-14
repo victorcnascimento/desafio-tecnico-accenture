@@ -1,5 +1,7 @@
 import { BasePage } from "../BasePage";
 
+export const ASCENDING_ORDER = ["One", "Two", "Three", "Four", "Five", "Six"];
+
 export class SortablePage extends BasePage {
   private homeCardInteractions = ".category-cards .card";
   private listItemsSelector = "#demo-tabpane-list .vertical-list-container .list-group-item";
@@ -25,58 +27,101 @@ export class SortablePage extends BasePage {
   }
 
   /**
+   * Valida (com retry) que a lista está exatamente na ordem informada, incluindo a quantidade de itens.
+   */
+  assertOrder(expectedOrder: string[]) {
+    this.getListItems().should(($items) => {
+      const order = [...$items].map((el) => el.innerText.trim());
+      expect(order, "Ordem atual dos itens").to.deep.equal(expectedOrder);
+    });
+  }
+
+  /**
    * Realiza o drag and drop entre dois itens identificados pelo texto.
-   * Suporta eventos de mouse mousedown -> mousemove -> mouseup para bibliotecas como react-sortable-hoc.
+   * O Sortable do DemoQA usa react-dnd com backend HTML5 (itens com draggable="true"), que reage a eventos
+   * nativos de drag (dragstart -> dragenter -> dragover -> drop -> dragend) e não a eventos de mouse.
+   * Todos os eventos compartilham o mesmo DataTransfer, como acontece em um arraste real.
    */
   dragAndDrop(sourceText: string, targetText: string) {
     this.removeAdsAndFooter();
 
-    cy.contains(this.listItemsSelector, targetText).then(($target) => {
-      const targetRect = $target[0].getBoundingClientRect();
-      const targetY = targetRect.top + targetRect.height / 2;
-      const targetX = targetRect.left + targetRect.width / 2;
+    cy.window().then((win) => {
+      const dataTransfer = new win.DataTransfer();
 
-      cy.contains(this.listItemsSelector, sourceText).then(($source) => {
-        const sourceRect = $source[0].getBoundingClientRect();
-        const startX = sourceRect.left + sourceRect.width / 2;
-        const startY = sourceRect.top + sourceRect.height / 2;
-
-        cy.wrap($source)
-          .trigger("mousedown", { which: 1, button: 0, clientX: startX, clientY: startY, force: true })
-          .wait(100);
-
-        // Dispara movimentos intermediários para o componente registrar o drag
-        cy.get("body")
-          .trigger("mousemove", { which: 1, button: 0, clientX: startX, clientY: (startY + targetY) / 2, force: true })
-          .wait(100)
-          .trigger("mousemove", { which: 1, button: 0, clientX: targetX, clientY: targetY, force: true })
-          .wait(100)
-          .trigger("mouseup", { force: true })
-          .wait(100);
-      });
+      cy.contains(this.listItemsSelector, sourceText).trigger("dragstart", { dataTransfer });
+      cy.contains(this.listItemsSelector, targetText)
+        .trigger("dragenter", { dataTransfer })
+        .trigger("dragover", { dataTransfer })
+        .trigger("drop", { dataTransfer });
+      cy.contains(this.listItemsSelector, sourceText).trigger("dragend", { dataTransfer });
     });
   }
 
-  sortItemsAscending() {
-    const expectedOrder = ["One", "Two", "Three", "Four", "Five", "Six"];
+  /**
+   * Arrasta um item para a posição informada e valida que ele realmente foi movido.
+   * Possui guard de limite de tentativas para evitar loops infinitos.
+   */
+  moveItemToIndex(itemText: string, targetIndex: number) {
+    this.getCurrentOrder().then((order) => {
+      expect(order, `Item "${itemText}" deve existir na lista`).to.include(itemText);
+      const currentIndex = order.indexOf(itemText);
+      if (currentIndex === targetIndex) {
+        return;
+      }
+      this.dragAndDrop(itemText, order[targetIndex]);
+    });
+    this.getListItems().eq(targetIndex).should("have.text", itemText);
+  }
 
-    // Algoritmo genérico: para cada posição, encontra o item correto e arrasta para a posição
-    this.getCurrentOrder().then((currentOrder) => {
-      cy.log("Ordem inicial dos itens: " + JSON.stringify(currentOrder));
+  /**
+   * A lista do DemoQA já carrega em ordem crescente. Para que a ordenação exija drag and drop de fato,
+   * a lista é colocada em ordem inversa (Six ... One) arrastando cada item para o topo.
+   */
+  shuffleItems() {
+    this.assertOrder(ASCENDING_ORDER);
+
+    ASCENDING_ORDER.slice(1).forEach((item) => {
+      this.moveItemToIndex(item, 0);
+    });
+
+    this.assertOrder([...ASCENDING_ORDER].reverse());
+  }
+
+  /**
+   * Reordena os elementos para ordem crescente garantindo que o drag and drop SEJA OBRIGATORIAMENTE
+   * executado e que a recursão possua limite estrito de tentativas para evitar loop infinito.
+   */
+  sortItemsAscending(maxAttempts: number = 20) {
+    let totalDrags = 0;
+    let attempts = 0;
+
+    // Se a lista estiver na ordem original (One a Six), desloca elementos para forçar o arraste
+    this.getCurrentOrder().then((initialOrder) => {
+      const isAlreadySorted = JSON.stringify(initialOrder) === JSON.stringify(ASCENDING_ORDER);
+      if (isAlreadySorted) {
+        cy.log("Lista carregada já ordenada. Forçando deslocamento do item 'Six' para o topo para testar arraste.");
+        this.moveItemToIndex("Six", 0);
+        totalDrags++;
+      }
 
       const sortStep = (index: number) => {
-        if (index >= expectedOrder.length) return;
+        attempts++;
+        if (attempts > maxAttempts) {
+          throw new Error(`Limite de ${maxAttempts} tentativas excedido ao ordenar lista via drag and drop.`);
+        }
+
+        if (index >= ASCENDING_ORDER.length) {
+          expect(totalDrags, "O teste deve obrigatoriamente executar ao menos uma operação de drag and drop").to.be.greaterThan(0);
+          return;
+        }
 
         this.getCurrentOrder().then((order) => {
-          const currentIndex = order.indexOf(expectedOrder[index]);
-          if (currentIndex !== index && currentIndex !== -1) {
-            // Arrasta o item da posição atual para a posição destino
-            this.dragAndDrop(expectedOrder[index], order[index]);
-            cy.wait(200);
-            sortStep(index);
-          } else {
-            sortStep(index + 1);
+          if (order[index] !== ASCENDING_ORDER[index]) {
+            this.moveItemToIndex(ASCENDING_ORDER[index], index);
+            totalDrags++;
+            cy.wait(150);
           }
+          sortStep(index + 1);
         });
       };
 
@@ -84,10 +129,12 @@ export class SortablePage extends BasePage {
     });
   }
 
-  validateAscendingOrder() {
-    const expectedOrder = ["One", "Two", "Three", "Four", "Five", "Six"];
-    this.getListItems().each(($item, index) => {
-      cy.wrap($item).should("have.text", expectedOrder[index]);
-    });
+  validateAscendingOrder(fromItem: string, toItem: string) {
+    const start = ASCENDING_ORDER.indexOf(fromItem);
+    const end = ASCENDING_ORDER.indexOf(toItem);
+    expect(start, `"${fromItem}" deve ser um item válido`).to.be.greaterThan(-1);
+    expect(end, `"${toItem}" deve ser um item válido`).to.be.greaterThan(start);
+
+    this.assertOrder(ASCENDING_ORDER.slice(start, end + 1));
   }
 }

@@ -28,6 +28,7 @@
     "@badeball/cypress-cucumber-preprocessor": "^28.0.1",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
     "@faker-js/faker": "^10.6.0",
+    "@types/node": "^26.6.5",
     "cypress": "^16.1.1",
     "esbuild": "^0.28.2",
     "multiple-cucumber-html-reporter": "^4.4.2",

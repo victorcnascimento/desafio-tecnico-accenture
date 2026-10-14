@@ -24,16 +24,24 @@ export class BrowserWindowsPage extends BasePage {
   clickNewWindow() {
     this.removeAdsAndFooter();
     cy.get(this.buttonNewWindow).scrollIntoView().click();
-    cy.get("@windowOpen").should("be.calledWithMatch", "/sample");
+  }
+
+  assertNewWindowOpened(expectedUrlPart: string = "/sample") {
+    cy.get("@windowOpen").should("be.called").and("be.calledWithMatch", expectedUrlPart);
   }
 
   validateSamplePageContent(expectedMessage: string) {
-    cy.visit("/sample");
-    cy.get(this.headingSample).should("be.visible").and("have.text", expectedMessage);
+    cy.get("@windowOpen").then((stub: any) => {
+      const openedUrl = stub.args[0][0];
+      expect(openedUrl, "URL da janela aberta").to.contain("/sample");
+      cy.visit(openedUrl);
+      cy.get(this.headingSample).should("be.visible").and("have.text", expectedMessage);
+    });
   }
 
   closeAndReturnToMainWindow() {
-    cy.visit("/browser-windows");
+    cy.go("back");
+    cy.url().should("include", "/browser-windows");
     cy.get(this.buttonNewWindow).should("be.visible");
   }
 }

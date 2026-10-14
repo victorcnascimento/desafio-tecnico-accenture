@@ -14,7 +14,7 @@ When("clica no botão \"New Window\"", function () {
 });
 
 Then("uma nova janela deve ser aberta", function () {
-  cy.log("Abertura da nova janela capturada pelo stub com a rota /sample");
+  browserWindowsPage.assertNewWindowOpened("/sample");
 });
 
 Then("o texto {string} deve estar visível no corpo da nova página", function (expectedText: string) {
@@ -24,5 +24,4 @@ Then("o texto {string} deve estar visível no corpo da nova página", function (
 
 Then("a nova janela é fechada retornando o foco à janela principal", function () {
   browserWindowsPage.closeAndReturnToMainWindow();
-  cy.log("Janela de exemplo fechada e foco retornado para a página principal.");
 });
