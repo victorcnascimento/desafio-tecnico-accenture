@@ -89,10 +89,16 @@ export class WebTablesPage extends BasePage {
   validateRecordInTable(email: string) {
     this.searchRecord(email);
     cy.get(this.tableBody).should("contain.text", email);
+    this.clearSearch();
   }
 
   validateRecordNotInTable(email: string) {
     this.searchRecord(email);
-    cy.get(this.tableBody).should("not.contain.text", email);
+    cy.get(this.tableBody).then(($tbody) => {
+      const dataRows = $tbody.find("tr").filter((_, el) => el.innerText.trim().length > 0);
+      expect(dataRows.length, `Busca pelo registro excluído (${email}) deve retornar 0 linhas`).to.eq(0);
+    });
+    cy.get("[id^='delete-record-']").should("not.exist");
+    this.clearSearch();
   }
 }

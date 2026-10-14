@@ -1,71 +1,74 @@
 # Relatório de Evidências - Testes de API DemoQA
 
-**Data/Hora da Execução:** 14/10/2026, 15:48:28
+**Data/Hora da Execução:** 14/10/2026, 16:50:38
 **Total de Requisições:** 6
 
 | Passo | Método / Endpoint | Status | Duração | Resultado |
 |---|---|---|---|---|
-| 1. Criar Usuário (POST /Account/v1/User) | `https://demoqa.com/Account/v1/User` | **201** | 1789ms | PASSOU (2xx) |
-| 2. Gerar Token (POST /Account/v1/GenerateToken) | `https://demoqa.com/Account/v1/GenerateToken` | **200** | 1282ms | PASSOU (2xx) |
-| 3. Verificar Autorização (POST /Account/v1/Authorized) | `https://demoqa.com/Account/v1/Authorized` | **200** | 334ms | PASSOU (2xx) |
-| 4. Listar Livros Disponíveis (GET /BookStore/v1/Books) | `https://demoqa.com/BookStore/v1/Books` | **200** | 213ms | PASSOU (2xx) |
-| 5. Alugar Dois Livros (POST /BookStore/v1/Books) | `https://demoqa.com/BookStore/v1/Books` | **201** | 449ms | PASSOU (2xx) |
-| 6. Consultar Detalhes do Usuário (GET /Account/v1/User/b56896dc-6d66-4eb9-add6-b43843db2ead) | `https://demoqa.com/Account/v1/User/b56896dc-6d66-4eb9-add6-b43843db2ead` | **200** | 365ms | PASSOU (2xx) |
+| 1. Criar Usuário (POST /Account/v1/User) | `POST` `https://demoqa.com/Account/v1/User` | **201** | 2428ms | PASSOU (2xx) |
+| 2. Gerar Token (POST /Account/v1/GenerateToken) | `POST` `https://demoqa.com/Account/v1/GenerateToken` | **200** | 1233ms | PASSOU (2xx) |
+| 3. Verificar Autorização (POST /Account/v1/Authorized) | `POST` `https://demoqa.com/Account/v1/Authorized` | **200** | 295ms | PASSOU (2xx) |
+| 4. Listar Livros Disponíveis (GET /BookStore/v1/Books) | `GET` `https://demoqa.com/BookStore/v1/Books` | **200** | 268ms | PASSOU (2xx) |
+| 5. Alugar Dois Livros (POST /BookStore/v1/Books) | `POST` `https://demoqa.com/BookStore/v1/Books` | **201** | 438ms | PASSOU (2xx) |
+| 6. Consultar Detalhes do Usuário (GET /Account/v1/User/d2579091-26aa-4da3-88f1-ec8029ab1644) | `GET` `https://demoqa.com/Account/v1/User/d2579091-26aa-4da3-88f1-ec8029ab1644` | **200** | 329ms | PASSOU (2xx) |
 
 ## Detalhes das Requisições e Respostas
 
 ### 1. 1. Criar Usuário (POST /Account/v1/User)
+- **Método:** `POST`
 - **URL:** `https://demoqa.com/Account/v1/User`
 - **Status Code:** `201`
-- **Duração:** `1789ms`
+- **Duração:** `2428ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_user_AiJaec_1792003686032",
+  "userName": "qa_user_uNin25_1792007415502",
   "password": "********"
 }
 ```
 - **Response Body (Sanitizado):**
 ```json
 {
-  "userID": "99bdd25c-8545-4a08-b171-694f26ad1c32",
-  "username": "qa_user_AiJaec_1792003686032",
+  "userID": "213f69f7-4c9d-49d0-9faa-8478d844e4d7",
+  "username": "qa_user_uNin25_1792007415502",
   "books": []
 }
 ```
 
 ### 2. 2. Gerar Token (POST /Account/v1/GenerateToken)
+- **Método:** `POST`
 - **URL:** `https://demoqa.com/Account/v1/GenerateToken`
 - **Status Code:** `200`
-- **Duração:** `1282ms`
+- **Duração:** `1233ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_user_m2Ri5f_1792003691167",
+  "userName": "qa_user_BwU8d9_1792007420642",
   "password": "********"
 }
 ```
 - **Response Body (Sanitizado):**
 ```json
 {
-  "token": "eyJhbG...[MASKED]...3WlQ",
-  "expires": "2026-10-21T18:48:13.539Z",
+  "token": "eyJhbG...[MASKED]...0aeo",
+  "expires": "2026-10-21T19:50:22.671Z",
   "status": "Success",
   "result": "User authorized successfully."
 }
 ```
 
 ### 3. 3. Verificar Autorização (POST /Account/v1/Authorized)
+- **Método:** `POST`
 - **URL:** `https://demoqa.com/Account/v1/Authorized`
 - **Status Code:** `200`
-- **Duração:** `334ms`
+- **Duração:** `295ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_user_ruaY5d_1792003695607",
+  "userName": "qa_user_u0Zctg_1792007423983",
   "password": "********"
 }
 ```
@@ -75,9 +78,10 @@ true
 ```
 
 ### 4. 4. Listar Livros Disponíveis (GET /BookStore/v1/Books)
+- **Método:** `GET`
 - **URL:** `https://demoqa.com/BookStore/v1/Books`
 - **Status Code:** `200`
-- **Duração:** `213ms`
+- **Duração:** `268ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload:** *(Sem payload no corpo)*
 - **Response Body (Sanitizado):**
@@ -177,14 +181,15 @@ true
 ```
 
 ### 5. 5. Alugar Dois Livros (POST /BookStore/v1/Books)
+- **Método:** `POST`
 - **URL:** `https://demoqa.com/BookStore/v1/Books`
 - **Status Code:** `201`
-- **Duração:** `449ms`
+- **Duração:** `438ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userId": "9e1316e5-9628-45c9-b718-0e164ea95076",
+  "userId": "4e7b6c9c-a986-42d4-be30-5f91f4f00451",
   "collectionOfIsbns": [
     {
       "isbn": "9781449325862"
@@ -209,17 +214,18 @@ true
 }
 ```
 
-### 6. 6. Consultar Detalhes do Usuário (GET /Account/v1/User/b56896dc-6d66-4eb9-add6-b43843db2ead)
-- **URL:** `https://demoqa.com/Account/v1/User/b56896dc-6d66-4eb9-add6-b43843db2ead`
+### 6. 6. Consultar Detalhes do Usuário (GET /Account/v1/User/d2579091-26aa-4da3-88f1-ec8029ab1644)
+- **Método:** `GET`
+- **URL:** `https://demoqa.com/Account/v1/User/d2579091-26aa-4da3-88f1-ec8029ab1644`
 - **Status Code:** `200`
-- **Duração:** `365ms`
+- **Duração:** `329ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload:** *(Sem payload no corpo)*
 - **Response Body (Sanitizado):**
 ```json
 {
-  "userId": "b56896dc-6d66-4eb9-add6-b43843db2ead",
-  "username": "qa_user_IvdVFs_1792003705376",
+  "userId": "d2579091-26aa-4da3-88f1-ec8029ab1644",
+  "username": "qa_user_i2ED7h_1792007434525",
   "books": [
     {
       "isbn": "9781449325862",

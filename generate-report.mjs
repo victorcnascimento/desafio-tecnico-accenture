@@ -14,6 +14,15 @@ if (!fs.existsSync(jsonDir)) {
   process.exit(0);
 }
 
+const jsonFiles = fs.readdirSync(jsonDir).filter((file) => file.endsWith(".json"));
+if (jsonFiles.length === 0) {
+  console.warn("Nenhum arquivo JSON de relatório encontrado em:", jsonDir);
+  process.exit(0);
+}
+
+const osPlatform = process.platform === "win32" ? "windows" : process.platform === "darwin" ? "osx" : "linux";
+const osRelease = process.platform === "win32" ? "11" : process.platform === "linux" ? "ubuntu" : "macOS";
+
 try {
   generate({
     jsonDir: jsonDir,
@@ -27,10 +36,10 @@ try {
         name: "chrome",
         version: "headless",
       },
-      device: "Local Machine",
+      device: process.env.CI ? "CI Runner" : "Local Machine",
       platform: {
-        name: "windows",
-        version: "11",
+        name: osPlatform,
+        version: osRelease,
       },
     },
     customData: {

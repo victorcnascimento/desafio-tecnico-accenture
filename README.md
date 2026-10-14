@@ -162,8 +162,8 @@ npm install
 | `npm run test:negative` | Executa exclusivamente a suíte de **cenários negativos (API + Frontend)** |
 | `npm run test:all:report` | Executa **todos os 24 testes (API + Frontend)** e consolida no relatório |
 | `npm run test:open` | Abre a **interface gráfica interativa** do Cypress |
-| `npm run report` | Gera o relatório visual em HTML a partir dos últimos resultados |
-| `npx tsc --noEmit` | Validação estática de tipos TypeScript (código de saída 0 sem erros) |
+| `npm run report` | Gera o relatório visual em HTML a partir dos relatórios JSON acumulados |
+| `npm run typecheck` | Validação estática de tipos TypeScript via `tsc --noEmit` (0 erros) |
 
 ---
 
@@ -265,7 +265,7 @@ Além dos cenários do caminho feliz, o projeto conta com **12 cenários negativ
 | 2 | **Practice Form** | Submeter com email inválido | Restrição HTML5 (`validity.valid === false`) e modal não aberto | [`CT_NEG_practice_form_email_invalido.png`](docs/evidencias/etapa-2-frontend/CT_NEG_practice_form_email_invalido.png) |
 | 3 | **Practice Form** | Submeter sem celular obrigatório | Borda com destaque visual de erro e modal não aberto | [`CT_NEG_practice_form_mobile_incompleto.png`](docs/evidencias/etapa-2-frontend/CT_NEG_practice_form_mobile_incompleto.png) |
 | 4 | **Web Tables** | Submeter formulário de registro vazio | Modal de cadastro permanece aberto com `.was-validated` nos campos | [`CT_NEG_webtables_formulario_vazio.png`](docs/evidencias/etapa-2-frontend/CT_NEG_webtables_formulario_vazio.png) |
-| 5 | **Web Tables** | Buscar registro inexistente | Tabela exibe estado sem correspondência | [`CT_NEG_webtables_busca_inexistente.png`](docs/evidencias/etapa-2-frontend/CT_NEG_webtables_busca_inexistente.png) |
+| 5 | **Web Tables** | Buscar registro inexistente | Tabela exibe 0 linhas de dados, ausência de botões de exclusão e paginação "Page 1 of 0" | [`CT_NEG_webtables_busca_inexistente.png`](docs/evidencias/etapa-2-frontend/CT_NEG_webtables_busca_inexistente.png) |
 | 6 | **Web Tables** | Inserir colaborador com email inválido | Modal permanece aberto e campo email reportado inválido pelo browser | [`CT_NEG_webtables_email_invalido.png`](docs/evidencias/etapa-2-frontend/CT_NEG_webtables_email_invalido.png) |
 
 ---
@@ -298,7 +298,7 @@ O projeto disponibiliza três níveis de acompanhamento das execuções:
   * **API:** 12 cenários (6 positivos + 6 negativos) — 100% Passing
   * **Frontend:** 12 cenários (6 positivos + 6 negativos) — 100% Passing
 * **Padrões de Arquitetura:** BasePage + Page Object (POM) + Service Object + Custom Polyfills
-* **CI/CD:** Pipeline configurada para o GitHub Actions em [`docs/ci/cypress-ci.yml`](docs/ci/cypress-ci.yml)
+* **CI/CD:** Pipeline configurada para o GitHub Actions em [`.github/workflows/cypress.yml`](.github/workflows/cypress.yml) e espelhada em [`docs/ci/cypress-ci.yml`](docs/ci/cypress-ci.yml)
 * **Taxa de Sucesso:** 100% (24/24 cenários)
 
 ---

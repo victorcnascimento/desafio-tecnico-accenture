@@ -110,13 +110,14 @@ export class EvidenceHelper {
     content += `|---|---|---|---|---|\n`;
 
     this.records.forEach((rec) => {
-      content += `| ${rec.step} | \`${rec.endpoint}\` | **${rec.status}** | ${rec.durationMs}ms | ${rec.result} |\n`;
+      content += `| ${rec.step} | \`${rec.method}\` \`${rec.endpoint}\` | **${rec.status}** | ${rec.durationMs}ms | ${rec.result} |\n`;
     });
 
     content += `\n## Detalhes das Requisições e Respostas\n\n`;
 
     this.records.forEach((rec, idx) => {
       content += `### ${idx + 1}. ${rec.step}\n`;
+      content += `- **Método:** \`${rec.method}\`\n`;
       content += `- **URL:** \`${rec.endpoint}\`\n`;
       content += `- **Status Code:** \`${rec.status}\`\n`;
       content += `- **Duração:** \`${rec.durationMs}ms\`\n`;

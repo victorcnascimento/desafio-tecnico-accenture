@@ -6,9 +6,10 @@
   "scripts": {
     "test": "cypress run",
     "test:open": "cypress open",
-    "test:api": "cypress run --spec \"cypress/e2e/features/etapa-1-api/**/*.feature\"",
-    "test:frontend": "cypress run --spec \"cypress/e2e/features/etapa-2-frontend/**/*.feature\"",
-    "test:negative": "cypress run --spec \"cypress/e2e/features/**/*negative*.feature\"",
+    "test:api": "cypress run --spec \"cypress/e2e/features/etapa-1-api/**/*.feature\" -x jsonOutput=cypress/reports/cucumber-json/api-cucumber-report.json",
+    "test:frontend": "cypress run --spec \"cypress/e2e/features/etapa-2-frontend/**/*.feature\" -x jsonOutput=cypress/reports/cucumber-json/frontend-cucumber-report.json",
+    "test:negative": "cypress run --spec \"cypress/e2e/features/**/*negative*.feature\" -x jsonOutput=cypress/reports/cucumber-json/negative-cucumber-report.json",
+    "typecheck": "tsc --noEmit",
     "report": "node generate-report.mjs",
     "test:api:report": "npm run test:api && npm run report",
     "test:frontend:report": "npm run test:frontend && npm run report",

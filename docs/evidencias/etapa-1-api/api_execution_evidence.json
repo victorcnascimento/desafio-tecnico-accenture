@@ -6,16 +6,16 @@
     "status": 201,
     "result": "PASSOU (2xx)",
     "requestPayload": {
-      "userName": "qa_user_AiJaec_1792003686032",
+      "userName": "qa_user_uNin25_1792007415502",
       "password": "********"
     },
     "responseBody": {
-      "userID": "99bdd25c-8545-4a08-b171-694f26ad1c32",
-      "username": "qa_user_AiJaec_1792003686032",
+      "userID": "213f69f7-4c9d-49d0-9faa-8478d844e4d7",
+      "username": "qa_user_uNin25_1792007415502",
       "books": []
     },
-    "durationMs": 1789,
-    "timestamp": "2026-10-14T18:48:07.832Z"
+    "durationMs": 2428,
+    "timestamp": "2026-10-14T19:50:17.943Z"
   },
   {
     "step": "2. Gerar Token (POST /Account/v1/GenerateToken)",
@@ -24,17 +24,17 @@
     "status": 200,
     "result": "PASSOU (2xx)",
     "requestPayload": {
-      "userName": "qa_user_m2Ri5f_1792003691167",
+      "userName": "qa_user_BwU8d9_1792007420642",
       "password": "********"
     },
     "responseBody": {
-      "token": "eyJhbG...[MASKED]...3WlQ",
-      "expires": "2026-10-21T18:48:13.539Z",
+      "token": "eyJhbG...[MASKED]...0aeo",
+      "expires": "2026-10-21T19:50:22.671Z",
       "status": "Success",
       "result": "User authorized successfully."
     },
-    "durationMs": 1282,
-    "timestamp": "2026-10-14T18:48:13.866Z"
+    "durationMs": 1233,
+    "timestamp": "2026-10-14T19:50:22.934Z"
   },
   {
     "step": "3. Verificar Autorização (POST /Account/v1/Authorized)",
@@ -43,12 +43,12 @@
     "status": 200,
     "result": "PASSOU (2xx)",
     "requestPayload": {
-      "userName": "qa_user_ruaY5d_1792003695607",
+      "userName": "qa_user_u0Zctg_1792007423983",
       "password": "********"
     },
     "responseBody": true,
-    "durationMs": 334,
-    "timestamp": "2026-10-14T18:48:18.696Z"
+    "durationMs": 295,
+    "timestamp": "2026-10-14T19:50:26.900Z"
   },
   {
     "step": "4. Listar Livros Disponíveis (GET /BookStore/v1/Books)",
@@ -149,8 +149,8 @@
         }
       ]
     },
-    "durationMs": 213,
-    "timestamp": "2026-10-14T18:48:20.761Z"
+    "durationMs": 268,
+    "timestamp": "2026-10-14T19:50:30.281Z"
   },
   {
     "step": "5. Alugar Dois Livros (POST /BookStore/v1/Books)",
@@ -159,7 +159,7 @@
     "status": 201,
     "result": "PASSOU (2xx)",
     "requestPayload": {
-      "userId": "9e1316e5-9628-45c9-b718-0e164ea95076",
+      "userId": "4e7b6c9c-a986-42d4-be30-5f91f4f00451",
       "collectionOfIsbns": [
         {
           "isbn": "9781449325862"
@@ -179,19 +179,19 @@
         }
       ]
     },
-    "durationMs": 449,
-    "timestamp": "2026-10-14T18:48:24.329Z"
+    "durationMs": 438,
+    "timestamp": "2026-10-14T19:50:33.700Z"
   },
   {
-    "step": "6. Consultar Detalhes do Usuário (GET /Account/v1/User/b56896dc-6d66-4eb9-add6-b43843db2ead)",
-    "endpoint": "https://demoqa.com/Account/v1/User/b56896dc-6d66-4eb9-add6-b43843db2ead",
+    "step": "6. Consultar Detalhes do Usuário (GET /Account/v1/User/d2579091-26aa-4da3-88f1-ec8029ab1644)",
+    "endpoint": "https://demoqa.com/Account/v1/User/d2579091-26aa-4da3-88f1-ec8029ab1644",
     "method": "GET",
     "status": 200,
     "result": "PASSOU (2xx)",
     "requestPayload": null,
     "responseBody": {
-      "userId": "b56896dc-6d66-4eb9-add6-b43843db2ead",
-      "username": "qa_user_IvdVFs_1792003705376",
+      "userId": "d2579091-26aa-4da3-88f1-ec8029ab1644",
+      "username": "qa_user_i2ED7h_1792007434525",
       "books": [
         {
           "isbn": "9781449325862",
@@ -217,7 +217,7 @@
         }
       ]
     },
-    "durationMs": 365,
-    "timestamp": "2026-10-14T18:48:28.766Z"
+    "durationMs": 329,
+    "timestamp": "2026-10-14T19:50:38.085Z"
   }
 ]

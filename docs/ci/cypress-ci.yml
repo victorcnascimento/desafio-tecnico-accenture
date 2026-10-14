@@ -22,9 +22,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run TypeScript Typecheck
+        run: npm run typecheck
+
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v6
         with:
+          install: false
           browser: chrome
           record: false
         env:
@@ -34,10 +38,13 @@ jobs:
         if: always()
         run: npm run report
 
-      - name: Upload Test Report
+      - name: Upload Test Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-report
-          path: cypress/reports/html-report/
+          name: cypress-artifacts
+          path: |
+            cypress/reports/html-report/
+            cypress/screenshots/
+            docs/evidencias/
           retention-days: 14

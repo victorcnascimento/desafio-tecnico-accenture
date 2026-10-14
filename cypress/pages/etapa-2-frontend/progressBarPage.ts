@@ -44,7 +44,7 @@ export class ProgressBarPage extends BasePage {
     cy.get(this.progressBar).invoke("attr", "aria-valuenow").then((val) => {
       const percentage = parseInt(val || "0", 10);
       cy.log(`Valor da barra de progresso interrompida: ${percentage}%`);
-      expect(percentage, "O percentual da barra deve ser menor ou igual a 25%").to.be.at.most(25);
+      expect(percentage, "O percentual da barra deve ser maior que 0% e menor ou igual a 25%").to.be.greaterThan(0).and.to.be.at.most(25);
     });
   }
 

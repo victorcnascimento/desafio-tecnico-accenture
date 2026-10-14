@@ -95,6 +95,7 @@ Then("todos os 12 novos registros devem constar na paginação da tabela", funct
 
 When("o usuário realiza a exclusão de todos os 12 registros adicionados", function () {
   webTablesPage.clearSearch();
+  webTablesPage.setPageSize("20 rows");
 
   const deleteExcessRecords = () => {
     cy.get("[id^='delete-record-'], [title='Delete']").then(($buttons) => {
