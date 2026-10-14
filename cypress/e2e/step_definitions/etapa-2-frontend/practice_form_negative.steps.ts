@@ -59,7 +59,7 @@ When("tenta submeter o formulário", function () {
 
 Then("o campo de email deve apresentar indicação visual de erro", function () {
   cy.get("form").should("have.class", "was-validated");
-  cy.get("#userEmail").then(($el) => {
+  cy.get("#userEmail").should(($el) => {
     // Verifica que o campo é reportado como inválido pelo browser
     expect(($el[0] as HTMLInputElement).validity.valid).to.be.false;
   });
@@ -78,7 +78,7 @@ When("preenche os demais campos obrigatórios exceto celular com dados válidos"
 
 Then("o campo de celular deve apresentar indicação visual de erro", function () {
   cy.get("form").should("have.class", "was-validated");
-  cy.get("#userNumber").then(($el) => {
+  cy.get("#userNumber").should(($el) => {
     expect(($el[0] as HTMLInputElement).validity.valid, "Campo celular vazio deve ser inválido").to.be.false;
   });
   cy.screenshot("CT_NEG_practice_form_mobile_incompleto");

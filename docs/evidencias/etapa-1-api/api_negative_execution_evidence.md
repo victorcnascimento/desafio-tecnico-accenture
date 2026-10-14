@@ -1,16 +1,16 @@
 # Relatório de Evidências - Testes de API DemoQA
 
-**Data/Hora da Execução:** 14/10/2026, 16:51:06
+**Data/Hora da Execução:** 14/10/2026, 17:12:20
 **Total de Requisições:** 6
 
 | Passo | Método / Endpoint | Status | Duração | Resultado |
 |---|---|---|---|---|
-| Negativo 1: Criar Usuário Duplicado (POST /Account/v1/User) | `POST` `https://demoqa.com/Account/v1/User` | **406** | 1038ms | PASSOU (406) |
-| Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken) | `POST` `https://demoqa.com/Account/v1/GenerateToken` | **200** | 1519ms | PASSOU (200) |
-| Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized) | `POST` `https://demoqa.com/Account/v1/Authorized` | **404** | 672ms | PASSOU (404) |
-| Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/6df058a4-f778-4c16-83d5-1ac223735bca) | `GET` `https://demoqa.com/Account/v1/User/6df058a4-f778-4c16-83d5-1ac223735bca` | **401** | 1100ms | PASSOU (401) |
-| Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books) | `POST` `https://demoqa.com/BookStore/v1/Books` | **400** | 932ms | PASSOU (400) |
-| Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User) | `POST` `https://demoqa.com/Account/v1/User` | **400** | 205ms | PASSOU (400) |
+| Negativo 1: Criar Usuário Duplicado (POST /Account/v1/User) | `POST` `https://demoqa.com/Account/v1/User` | **406** | 1845ms | PASSOU (406) |
+| Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken) | `POST` `https://demoqa.com/Account/v1/GenerateToken` | **200** | 1541ms | PASSOU (200) |
+| Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized) | `POST` `https://demoqa.com/Account/v1/Authorized` | **404** | 996ms | PASSOU (404) |
+| Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/4cde16be-31f1-4713-a6b2-7156268fbebe) | `GET` `https://demoqa.com/Account/v1/User/4cde16be-31f1-4713-a6b2-7156268fbebe` | **401** | 382ms | PASSOU (401) |
+| Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books) | `POST` `https://demoqa.com/BookStore/v1/Books` | **400** | 319ms | PASSOU (400) |
+| Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User) | `POST` `https://demoqa.com/Account/v1/User` | **400** | 249ms | PASSOU (400) |
 
 ## Detalhes das Requisições e Respostas
 
@@ -18,12 +18,12 @@
 - **Método:** `POST`
 - **URL:** `https://demoqa.com/Account/v1/User`
 - **Status Code:** `406`
-- **Duração:** `1038ms`
+- **Duração:** `1845ms`
 - **Resultado:** `PASSOU (406)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_neg_mTHY9b_1792007440529",
+  "userName": "qa_neg_5zvKJx_1792008712469",
   "password": "********"
 }
 ```
@@ -39,12 +39,12 @@
 - **Método:** `POST`
 - **URL:** `https://demoqa.com/Account/v1/GenerateToken`
 - **Status Code:** `200`
-- **Duração:** `1519ms`
+- **Duração:** `1541ms`
 - **Resultado:** `PASSOU (200)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_neg_9Gb02I_1792007445447",
+  "userName": "qa_neg_2JdmYN_1792008719835",
   "password": "********"
 }
 ```
@@ -62,12 +62,12 @@
 - **Método:** `POST`
 - **URL:** `https://demoqa.com/Account/v1/Authorized`
 - **Status Code:** `404`
-- **Duração:** `672ms`
+- **Duração:** `996ms`
 - **Resultado:** `PASSOU (404)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_neg_fttgWd_1792007451591",
+  "userName": "qa_neg_vzNsHD_1792008726908",
   "password": "********"
 }
 ```
@@ -79,11 +79,11 @@
 }
 ```
 
-### 4. Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/6df058a4-f778-4c16-83d5-1ac223735bca)
+### 4. Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/4cde16be-31f1-4713-a6b2-7156268fbebe)
 - **Método:** `GET`
-- **URL:** `https://demoqa.com/Account/v1/User/6df058a4-f778-4c16-83d5-1ac223735bca`
+- **URL:** `https://demoqa.com/Account/v1/User/4cde16be-31f1-4713-a6b2-7156268fbebe`
 - **Status Code:** `401`
-- **Duração:** `1100ms`
+- **Duração:** `382ms`
 - **Resultado:** `PASSOU (401)`
 - **Request Payload:** *(Sem payload no corpo)*
 - **Response Body (Sanitizado):**
@@ -98,12 +98,12 @@
 - **Método:** `POST`
 - **URL:** `https://demoqa.com/BookStore/v1/Books`
 - **Status Code:** `400`
-- **Duração:** `932ms`
+- **Duração:** `319ms`
 - **Resultado:** `PASSOU (400)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userId": "d17ada95-2b8d-4ca3-8e48-832a7814bb1b",
+  "userId": "f50a54f3-d0a4-4927-b227-bccaa26b296a",
   "collectionOfIsbns": [
     {
       "isbn": "9781449325862"
@@ -123,12 +123,12 @@
 - **Método:** `POST`
 - **URL:** `https://demoqa.com/Account/v1/User`
 - **Status Code:** `400`
-- **Duração:** `205ms`
+- **Duração:** `249ms`
 - **Resultado:** `PASSOU (400)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_nospass_1792007466071"
+  "userName": "qa_nospass_1792008740699"
 }
 ```
 - **Response Body (Sanitizado):**

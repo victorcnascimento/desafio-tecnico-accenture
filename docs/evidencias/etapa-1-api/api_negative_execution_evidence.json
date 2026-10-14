@@ -7,15 +7,15 @@
     "expectedStatus": 406,
     "result": "PASSOU (406)",
     "requestPayload": {
-      "userName": "qa_neg_mTHY9b_1792007440529",
+      "userName": "qa_neg_5zvKJx_1792008712469",
       "password": "********"
     },
     "responseBody": {
       "code": "1204",
       "message": "User exists!"
     },
-    "durationMs": 1038,
-    "timestamp": "2026-10-14T19:50:44.462Z"
+    "durationMs": 1845,
+    "timestamp": "2026-10-14T20:11:57.804Z"
   },
   {
     "step": "Negativo 2: Gerar Token com Senha Inválida (POST /Account/v1/GenerateToken)",
@@ -25,7 +25,7 @@
     "expectedStatus": 200,
     "result": "PASSOU (200)",
     "requestPayload": {
-      "userName": "qa_neg_9Gb02I_1792007445447",
+      "userName": "qa_neg_2JdmYN_1792008719835",
       "password": "********"
     },
     "responseBody": {
@@ -34,8 +34,8 @@
       "status": "Failed",
       "result": "User authorization failed."
     },
-    "durationMs": 1519,
-    "timestamp": "2026-10-14T19:50:49.616Z"
+    "durationMs": 1541,
+    "timestamp": "2026-10-14T20:12:05.970Z"
   },
   {
     "step": "Negativo 3: Verificar Autorização com Senha Inválida (POST /Account/v1/Authorized)",
@@ -45,19 +45,19 @@
     "expectedStatus": 404,
     "result": "PASSOU (404)",
     "requestPayload": {
-      "userName": "qa_neg_fttgWd_1792007451591",
+      "userName": "qa_neg_vzNsHD_1792008726908",
       "password": "********"
     },
     "responseBody": {
       "code": "1207",
       "message": "User not found!"
     },
-    "durationMs": 672,
-    "timestamp": "2026-10-14T19:50:54.733Z"
+    "durationMs": 996,
+    "timestamp": "2026-10-14T20:12:10.417Z"
   },
   {
-    "step": "Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/6df058a4-f778-4c16-83d5-1ac223735bca)",
-    "endpoint": "https://demoqa.com/Account/v1/User/6df058a4-f778-4c16-83d5-1ac223735bca",
+    "step": "Negativo 4: Consultar Usuário com Token Forjado (GET /Account/v1/User/4cde16be-31f1-4713-a6b2-7156268fbebe)",
+    "endpoint": "https://demoqa.com/Account/v1/User/4cde16be-31f1-4713-a6b2-7156268fbebe",
     "method": "GET",
     "status": 401,
     "expectedStatus": 401,
@@ -67,8 +67,8 @@
       "code": "1200",
       "message": "User not authorized!"
     },
-    "durationMs": 1100,
-    "timestamp": "2026-10-14T19:50:59.499Z"
+    "durationMs": 382,
+    "timestamp": "2026-10-14T20:12:15.137Z"
   },
   {
     "step": "Negativo 5: Alugar Livro Já Presente na Coleção (POST /BookStore/v1/Books)",
@@ -78,7 +78,7 @@
     "expectedStatus": 400,
     "result": "PASSOU (400)",
     "requestPayload": {
-      "userId": "d17ada95-2b8d-4ca3-8e48-832a7814bb1b",
+      "userId": "f50a54f3-d0a4-4927-b227-bccaa26b296a",
       "collectionOfIsbns": [
         {
           "isbn": "9781449325862"
@@ -89,8 +89,8 @@
       "code": "1210",
       "message": "ISBN already present in the User's Collection!"
     },
-    "durationMs": 932,
-    "timestamp": "2026-10-14T19:51:05.271Z"
+    "durationMs": 319,
+    "timestamp": "2026-10-14T20:12:19.619Z"
   },
   {
     "step": "Negativo 6: Criar Usuário sem Senha (POST /Account/v1/User)",
@@ -100,13 +100,13 @@
     "expectedStatus": 400,
     "result": "PASSOU (400)",
     "requestPayload": {
-      "userName": "qa_nospass_1792007466071"
+      "userName": "qa_nospass_1792008740699"
     },
     "responseBody": {
       "code": "1200",
       "message": "UserName and Password required."
     },
-    "durationMs": 205,
-    "timestamp": "2026-10-14T19:51:06.280Z"
+    "durationMs": 249,
+    "timestamp": "2026-10-14T20:12:20.953Z"
   }
 ]

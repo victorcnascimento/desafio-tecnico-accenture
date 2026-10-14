@@ -40,7 +40,7 @@ When("realiza uma busca por um valor inexistente {string}", function (searchTerm
 
 Then("a tabela deve exibir a mensagem indicando que não há registros encontrados", function () {
   // Valida que a tabela ficou com 0 linhas de registros e nenhum botão de ação
-  cy.get("table tbody").then(($tbody) => {
+  cy.get("table tbody").should(($tbody) => {
     const dataRows = $tbody.find("tr").filter((_, el) => el.innerText.trim().length > 0);
     expect(dataRows.length, "Quantidade de linhas de dados com busca inexistente").to.eq(0);
   });
@@ -67,7 +67,7 @@ When("tenta adicionar um registro com email inválido {string}", function (inval
 Then("o formulário de registro deve permanecer aberto indicando email inválido", function () {
   // O modal deve continuar aberto porque o email é inválido
   cy.get("#registration-form-modal").should("be.visible");
-  cy.get("#userEmail").then(($el) => {
+  cy.get("#userEmail").should(($el) => {
     expect(($el[0] as HTMLInputElement).validity.valid, "Campo email deve estar inválido").to.be.false;
   });
   cy.screenshot("CT_NEG_webtables_email_invalido");

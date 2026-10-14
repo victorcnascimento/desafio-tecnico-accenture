@@ -94,7 +94,7 @@ export class WebTablesPage extends BasePage {
 
   validateRecordNotInTable(email: string) {
     this.searchRecord(email);
-    cy.get(this.tableBody).then(($tbody) => {
+    cy.get(this.tableBody).should(($tbody) => {
       const dataRows = $tbody.find("tr").filter((_, el) => el.innerText.trim().length > 0);
       expect(dataRows.length, `Busca pelo registro excluído (${email}) deve retornar 0 linhas`).to.eq(0);
     });

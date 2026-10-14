@@ -111,7 +111,7 @@ export class PracticeFormPage extends BasePage {
       .and("contain.text", "Thanks for submitting the form");
 
     // Validações dos dados na tabela
-    cy.get(this.modalTable).then(($rows) => {
+    cy.get(this.modalTable).should(($rows) => {
       const text = $rows.text();
       expect(text).to.contain(`${data.firstName} ${data.lastName}`);
       expect(text).to.contain(data.email);
