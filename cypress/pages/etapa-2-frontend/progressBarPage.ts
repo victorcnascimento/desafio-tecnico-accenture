@@ -28,16 +28,19 @@ export class ProgressBarPage extends BasePage {
       }
       cy.get(this.progressBar).invoke("attr", "aria-valuenow").then((val) => {
         const current = parseInt(val || "0", 10);
-        if (current < 18) {
+        // Interrompe quando atingir entre 14% e 18%, garantindo que a parada ocorra com folga antes dos 25%
+        if (current < 14) {
           cy.wait(40);
           pollAndStop(attempt + 1);
         } else {
-          cy.get(this.buttonStartStop).click();
+          cy.get(this.buttonStartStop).scrollIntoView().click({ force: true });
         }
       });
     };
 
     pollAndStop();
+    // Garante que o botão alternou para "Start" (confirmando a interrupção da barra)
+    cy.get(this.buttonStartStop, { timeout: 10000 }).should("contain.text", "Start");
   }
 
   validateProgressLessOrEqualTo25() {
@@ -50,15 +53,20 @@ export class ProgressBarPage extends BasePage {
 
   resumeUntil100Percent() {
     this.removeAdsAndFooter();
-    cy.get(this.buttonStartStop).click();
-    // Aguarda atingir 100%
-    cy.get(this.progressBar, { timeout: 15000 })
+    cy.get(this.buttonStartStop).scrollIntoView().click({ force: true });
+    // Aguarda atingir 100% com timeout generoso (30s) para evitar flakiness em conexões lentas ou máquinas sob carga
+    cy.get(this.progressBar, { timeout: 30000 })
       .should("have.attr", "aria-valuenow", "100");
   }
 
   resetProgressBar() {
     this.removeAdsAndFooter();
-    cy.get(this.buttonReset, { timeout: 5000 }).should("be.visible").click();
-    cy.get(this.progressBar).should("have.attr", "aria-valuenow", "0");
+    // Ao atingir 100%, o DemoQA substitui o startStopButton pelo resetButton
+    cy.get(this.buttonReset, { timeout: 15000 })
+      .should("be.visible")
+      .scrollIntoView()
+      .click({ force: true });
+    cy.get(this.progressBar, { timeout: 10000 })
+      .should("have.attr", "aria-valuenow", "0");
   }
 }

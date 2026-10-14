@@ -1,16 +1,16 @@
 # Relatório de Evidências - Testes de API DemoQA
 
-**Data/Hora da Execução:** 14/10/2026, 16:50:38
+**Data/Hora da Execução:** 14/10/2026, 17:54:26
 **Total de Requisições:** 6
 
 | Passo | Método / Endpoint | Status | Duração | Resultado |
 |---|---|---|---|---|
-| 1. Criar Usuário (POST /Account/v1/User) | `POST` `https://demoqa.com/Account/v1/User` | **201** | 2428ms | PASSOU (2xx) |
-| 2. Gerar Token (POST /Account/v1/GenerateToken) | `POST` `https://demoqa.com/Account/v1/GenerateToken` | **200** | 1233ms | PASSOU (2xx) |
-| 3. Verificar Autorização (POST /Account/v1/Authorized) | `POST` `https://demoqa.com/Account/v1/Authorized` | **200** | 295ms | PASSOU (2xx) |
+| 1. Criar Usuário (POST /Account/v1/User) | `POST` `https://demoqa.com/Account/v1/User` | **201** | 2031ms | PASSOU (2xx) |
+| 2. Gerar Token (POST /Account/v1/GenerateToken) | `POST` `https://demoqa.com/Account/v1/GenerateToken` | **200** | 1387ms | PASSOU (2xx) |
+| 3. Verificar Autorização (POST /Account/v1/Authorized) | `POST` `https://demoqa.com/Account/v1/Authorized` | **200** | 465ms | PASSOU (2xx) |
 | 4. Listar Livros Disponíveis (GET /BookStore/v1/Books) | `GET` `https://demoqa.com/BookStore/v1/Books` | **200** | 268ms | PASSOU (2xx) |
-| 5. Alugar Dois Livros (POST /BookStore/v1/Books) | `POST` `https://demoqa.com/BookStore/v1/Books` | **201** | 438ms | PASSOU (2xx) |
-| 6. Consultar Detalhes do Usuário (GET /Account/v1/User/d2579091-26aa-4da3-88f1-ec8029ab1644) | `GET` `https://demoqa.com/Account/v1/User/d2579091-26aa-4da3-88f1-ec8029ab1644` | **200** | 329ms | PASSOU (2xx) |
+| 5. Alugar Dois Livros (POST /BookStore/v1/Books) | `POST` `https://demoqa.com/BookStore/v1/Books` | **201** | 402ms | PASSOU (2xx) |
+| 6. Consultar Detalhes do Usuário (GET /Account/v1/User/fcc3d3c8-4d4b-4d90-9a1e-c982c7f38650) | `GET` `https://demoqa.com/Account/v1/User/fcc3d3c8-4d4b-4d90-9a1e-c982c7f38650` | **200** | 330ms | PASSOU (2xx) |
 
 ## Detalhes das Requisições e Respostas
 
@@ -18,20 +18,20 @@
 - **Método:** `POST`
 - **URL:** `https://demoqa.com/Account/v1/User`
 - **Status Code:** `201`
-- **Duração:** `2428ms`
+- **Duração:** `2031ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_user_uNin25_1792007415502",
+  "userName": "qa_user_nqOddf_1792011243635",
   "password": "********"
 }
 ```
 - **Response Body (Sanitizado):**
 ```json
 {
-  "userID": "213f69f7-4c9d-49d0-9faa-8478d844e4d7",
-  "username": "qa_user_uNin25_1792007415502",
+  "userID": "712e0fef-ee16-4ca5-9a4b-2c6fed629de0",
+  "username": "qa_user_nqOddf_1792011243635",
   "books": []
 }
 ```
@@ -40,20 +40,20 @@
 - **Método:** `POST`
 - **URL:** `https://demoqa.com/Account/v1/GenerateToken`
 - **Status Code:** `200`
-- **Duração:** `1233ms`
+- **Duração:** `1387ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_user_BwU8d9_1792007420642",
+  "userName": "qa_user_ogbHLU_1792011248384",
   "password": "********"
 }
 ```
 - **Response Body (Sanitizado):**
 ```json
 {
-  "token": "eyJhbG...[MASKED]...0aeo",
-  "expires": "2026-10-21T19:50:22.671Z",
+  "token": "eyJhbG...[MASKED]...dBuo",
+  "expires": "2026-10-21T20:54:10.701Z",
   "status": "Success",
   "result": "User authorized successfully."
 }
@@ -63,12 +63,12 @@
 - **Método:** `POST`
 - **URL:** `https://demoqa.com/Account/v1/Authorized`
 - **Status Code:** `200`
-- **Duração:** `295ms`
+- **Duração:** `465ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userName": "qa_user_u0Zctg_1792007423983",
+  "userName": "qa_user_7balBn_1792011252797",
   "password": "********"
 }
 ```
@@ -184,12 +184,12 @@ true
 - **Método:** `POST`
 - **URL:** `https://demoqa.com/BookStore/v1/Books`
 - **Status Code:** `201`
-- **Duração:** `438ms`
+- **Duração:** `402ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload (Sanitizado):**
 ```json
 {
-  "userId": "4e7b6c9c-a986-42d4-be30-5f91f4f00451",
+  "userId": "42be8a9d-1259-4273-88de-ea163600b8c3",
   "collectionOfIsbns": [
     {
       "isbn": "9781449325862"
@@ -214,18 +214,18 @@ true
 }
 ```
 
-### 6. 6. Consultar Detalhes do Usuário (GET /Account/v1/User/d2579091-26aa-4da3-88f1-ec8029ab1644)
+### 6. 6. Consultar Detalhes do Usuário (GET /Account/v1/User/fcc3d3c8-4d4b-4d90-9a1e-c982c7f38650)
 - **Método:** `GET`
-- **URL:** `https://demoqa.com/Account/v1/User/d2579091-26aa-4da3-88f1-ec8029ab1644`
+- **URL:** `https://demoqa.com/Account/v1/User/fcc3d3c8-4d4b-4d90-9a1e-c982c7f38650`
 - **Status Code:** `200`
-- **Duração:** `329ms`
+- **Duração:** `330ms`
 - **Resultado:** `PASSOU (2xx)`
 - **Request Payload:** *(Sem payload no corpo)*
 - **Response Body (Sanitizado):**
 ```json
 {
-  "userId": "d2579091-26aa-4da3-88f1-ec8029ab1644",
-  "username": "qa_user_i2ED7h_1792007434525",
+  "userId": "fcc3d3c8-4d4b-4d90-9a1e-c982c7f38650",
+  "username": "qa_user_8yfv7H_1792011262865",
   "books": [
     {
       "isbn": "9781449325862",

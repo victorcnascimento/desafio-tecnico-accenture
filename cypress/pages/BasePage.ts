@@ -7,6 +7,9 @@ export class BasePage {
       if ($body.find("footer").length > 0) {
         cy.get("footer").invoke("remove");
       }
+      if ($body.find("iframe[id^='google_ads'], iframe[id^='aswift_'], #adplus-anchor").length > 0) {
+        $body.find("iframe[id^='google_ads'], iframe[id^='aswift_'], #adplus-anchor").remove();
+      }
     });
   }
 
