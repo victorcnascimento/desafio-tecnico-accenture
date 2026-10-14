@@ -57,6 +57,8 @@ export class ProgressBarPage extends BasePage {
     // Aguarda atingir 100% com timeout generoso (30s) para evitar flakiness em conexões lentas ou máquinas sob carga
     cy.get(this.progressBar, { timeout: 30000 })
       .should("have.attr", "aria-valuenow", "100");
+    // Aguarda o timer interno do DemoQA concluir o ciclo (o DemoQA só chama clearInterval no render quando runningTime > 100)
+    cy.wait(600);
   }
 
   resetProgressBar() {
@@ -66,6 +68,15 @@ export class ProgressBarPage extends BasePage {
       .should("be.visible")
       .scrollIntoView()
       .click({ force: true });
+
+    // Se o clique ocorreu durante uma transição de re-render do React e o botão Reset ainda persistir, re-aciona o clique
+    cy.wait(300);
+    cy.get("body").then(($body) => {
+      if ($body.find(this.buttonReset).length > 0) {
+        cy.get(this.buttonReset).click({ force: true });
+      }
+    });
+
     cy.get(this.progressBar, { timeout: 10000 })
       .should("have.attr", "aria-valuenow", "0");
   }
